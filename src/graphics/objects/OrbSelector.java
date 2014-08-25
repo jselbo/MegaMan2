@@ -40,7 +40,7 @@ public class OrbSelector extends Sprite
 		Animation[] anims = new Animation[1];
 		
 		Animation anim = new Animation();
-		String base = "resources/images/overworld/";
+		String base = "res/images/overworld/";
 		Image[] images = new Image[3];
 		for (int i = 0; i < images.length; i++)
 			images[i] = Utility.loadImage(base + "orb_selector" + (i+1) + ".png");

@@ -37,7 +37,7 @@ public class Selector extends Sprite
 		Animation[] anims = new Animation[1];
 		
 		Animation anim = new Animation();
-		Image image = Utility.loadImage("resources/images/general/selector.png");
+		Image image = Utility.loadImage("res/images/general/selector.png");
 		anim.addFrame(image, 133);
 		anim.addFrame(null, 133);
 		

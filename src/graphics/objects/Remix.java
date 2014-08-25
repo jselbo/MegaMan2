@@ -15,7 +15,7 @@ public class Remix
 	
 	public Remix(int x, int y)
 	{
-		img = Utility.loadImage("resources/images/overworld/remix.png");
+		img = Utility.loadImage("res/images/overworld/remix.png");
 		this.x = x;
 		this.y = y;
 	}

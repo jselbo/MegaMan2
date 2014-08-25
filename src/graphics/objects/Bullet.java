@@ -22,7 +22,7 @@ public class Bullet extends Sprite
 		Animation[] anims = new Animation[1];
 		
 		anims[0] = new Animation();
-		anims[0].addFrame(Utility.loadImage("resources/images/megaman/bullet.png"), 10);
+		anims[0].addFrame(Utility.loadImage("res/images/megaman/bullet.png"), 10);
 		
 		return anims;
 	}

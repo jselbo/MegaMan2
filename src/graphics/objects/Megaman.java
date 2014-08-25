@@ -29,14 +29,14 @@ public class Megaman extends Sprite
 		
 		reset();
 		
-		healthImg = Utility.loadImage("resources/images/megaman/health.png");
+		healthImg = Utility.loadImage("res/images/megaman/health.png");
 	}
 	
 	public static Animation[] loadAnimations()
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/megaman/";
+		String base = "res/images/megaman/";
 		
 		anims[STATE_IDLE] = new Animation(true);
 		anims[STATE_IDLE].addFrame(Utility.loadImage(base + "idle1.png"), 1500);

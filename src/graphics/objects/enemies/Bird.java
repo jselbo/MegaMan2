@@ -45,7 +45,7 @@ public class Bird extends Enemy
 	{
 		Animation[] anims = new Animation[2];
 		
-		String base = "resources/images/enemies/";
+		String base = "res/images/enemies/";
 		
 		char c = ' ';
 		if (type == 0)

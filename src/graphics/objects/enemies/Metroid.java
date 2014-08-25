@@ -33,7 +33,7 @@ public class Metroid extends Enemy
 	{
 		Animation[] anims = new Animation[2];
 		
-		String base = "resources/images/enemies/";
+		String base = "res/images/enemies/";
 		
 		anims[STATE_EXPLODING] = new Animation(false);
 		anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode1.png"), 200);

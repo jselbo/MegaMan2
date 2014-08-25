@@ -17,7 +17,7 @@ public class Bubbleman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/bubbleman/";
+		String base = "res/images/bosses/bubbleman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

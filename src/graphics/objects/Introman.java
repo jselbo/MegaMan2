@@ -28,7 +28,7 @@ public class Introman extends Sprite
 	{
 		Animation[] anim = new Animation[2];
 		
-		String base = "resources/images/megaman/";
+		String base = "res/images/megaman/";
 		
 		anim[STATE_IDLE] = new Animation();
 		final int IDLE_IMGS = 2;

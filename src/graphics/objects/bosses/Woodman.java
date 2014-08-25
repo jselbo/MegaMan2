@@ -17,7 +17,7 @@ public class Woodman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/woodman/";
+		String base = "res/images/bosses/woodman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

@@ -17,7 +17,7 @@ public class Heatman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/heatman/";
+		String base = "res/images/bosses/heatman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

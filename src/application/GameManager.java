@@ -94,7 +94,7 @@ public class GameManager implements Runnable
 		
 		FileInputStream in = null;
 		try {
-			in = new FileInputStream("resources/config.properties");
+			in = new FileInputStream("res/config.properties");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

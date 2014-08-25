@@ -56,7 +56,7 @@ public class Spring extends Enemy
 	{
 		Animation[] anims = new Animation[3];
 		
-		String base = "resources/images/enemies/";
+		String base = "res/images/enemies/";
 		anims[STATE_EXPLODING] = new Animation(false);
 		anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode1.png"), 200);
 		anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode2.png"), 200);

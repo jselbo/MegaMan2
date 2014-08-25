@@ -60,13 +60,13 @@ public class LevelSelectPanel extends GamePanel
 		super(state);
 		setBackground(Color.black);
 		
-		String audioBase = "resources/audio/midis/";
+		String audioBase = "res/audio/midis/";
 		selectMidi = midiPlayer.getSequence(audioBase + "select_stage.mid");
 		levelIntroMidi = midiPlayer.getSequence(audioBase + "level_intro.mid");
 		
-		blip = soundManager.getSound("resources/audio/sound_effects/blip1.wav");
+		blip = soundManager.getSound("res/audio/sound_effects/blip1.wav");
 		
-		String imageBase = "resources/images/overworld/";
+		String imageBase = "res/images/overworld/";
 		background = Utility.loadImage(imageBase + "select_background.png");
 		
 		icons = new BossIcon[3][3];
@@ -92,7 +92,7 @@ public class LevelSelectPanel extends GamePanel
 		banner = Utility.loadImage(imageBase + "banner.png");
 		
 		stars = new Image[6];
-		String starBase = "resources/images/overworld/stars/";
+		String starBase = "res/images/overworld/stars/";
 		for (int i = 0; i < 3; i++)
 		{
 			stars[i] = Utility.loadImage(starBase + "top" + (i+1) + ".png");

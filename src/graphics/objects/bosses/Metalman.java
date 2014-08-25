@@ -17,7 +17,7 @@ public class Metalman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/metalman/";
+		String base = "res/images/bosses/metalman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

@@ -17,7 +17,7 @@ public class Quickman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/quickman/";
+		String base = "res/images/bosses/quickman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

@@ -91,8 +91,8 @@ public class LevelPanel extends GamePanel
 		Image[] reg = new Image[8], stk = new Image[8];
 		for (int i = 0; i < reg.length; i++)
 		{
-			reg[i] = Utility.loadImage("resources/images/tilesets/temp/block" + (i+1) + ".png");
-			stk[i] = Utility.loadImage("resources/images/tilesets/temp/sticky" + (i+1) + ".png");
+			reg[i] = Utility.loadImage("res/images/tilesets/temp/block" + (i+1) + ".png");
+			stk[i] = Utility.loadImage("res/images/tilesets/temp/sticky" + (i+1) + ".png");
 		}
 		
 		grid[0][0][0] = new Block(0 * BLOCK_SIZE, 0, reg[5]);
@@ -124,7 +124,7 @@ public class LevelPanel extends GamePanel
 		
 		midis = new Sequence[8];
 		for (int i = 0; i < midis.length; i++)
-			midis[i] = midiPlayer.getSequence("resources/audio/midis/wave" + (i+1) + ".mid");
+			midis[i] = midiPlayer.getSequence("res/audio/midis/wave" + (i+1) + ".mid");
 		
 		megaman = new Megaman();
 		

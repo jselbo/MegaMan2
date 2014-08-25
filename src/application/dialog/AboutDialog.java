@@ -37,7 +37,7 @@ public class AboutDialog extends JDialog
 		
 		public AboutPanel()
 		{
-			bg = Utility.loadImage("resources/images/overworld/about_background.png");
+			bg = Utility.loadImage("res/images/overworld/about_background.png");
 			
 			dim = new Dimension(bg.getWidth(null) + 100, bg.getHeight(null) + 275);
 			setPreferredSize(dim);

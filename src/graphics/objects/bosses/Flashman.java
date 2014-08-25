@@ -17,7 +17,7 @@ public class Flashman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/flashman/";
+		String base = "res/images/bosses/flashman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		Image fall = Utility.loadImage(base + "fall.png");

@@ -17,7 +17,7 @@ public class Crashman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/crashman/";
+		String base = "res/images/bosses/crashman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		

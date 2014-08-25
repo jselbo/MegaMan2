@@ -65,7 +65,7 @@ public class IntroPanel extends GamePanel
 	private Image building, notchlessBuilding, roof;
 	private boolean showNotchless; // paint notchless bottom building?
 	private int notchlessPosition; // don't worry about it
-	private float buildingY; // y-value of top of topmost building section, range (-2*buildingHeight+6, 0] until camera approaches roof
+	private float buildingY; // y-value of top of topmost building section, (-2*buildingHeight+6, 0] until camera approaches roof
 	private float cityBoxSpeed; // speed of city and box, pixels per second
 	private final float MAX_CITY_BOX_SPEED = 120.0f; // final speed of city and box, pixels per second
 	private float buildingSpeed; // speed of building, pixels per second
@@ -88,17 +88,17 @@ public class IntroPanel extends GamePanel
 		
 		initializeTextData();
 		
-		midi = midiPlayer.getSequence("resources/audio/midis/intro.mid");
+		midi = midiPlayer.getSequence("res/audio/midis/intro.mid");
 		
-		blip = soundManager.getSound("resources/audio/sound_effects/blip1.wav");
-		teleport = soundManager.getSound("resources/audio/sound_effects/teleport.wav");
+		blip = soundManager.getSound("res/audio/sound_effects/blip1.wav");
+		teleport = soundManager.getSound("res/audio/sound_effects/teleport.wav");
 		
 		triggers = new long[600]; // approximate number of triggers
 		Arrays.fill(triggers, -1L); // fill with default value of -1
 		initializeTriggers();
 		
 		// Load in images
-		String base = "resources/images/intro/";
+		String base = "res/images/intro/";
 		city = Utility.loadImage(base + "city.png");
 		building = Utility.loadImage(base + "building_section.png");
 		notchlessBuilding = Utility.loadImage(base + "notchless_building_section.png");
@@ -422,7 +422,7 @@ public class IntroPanel extends GamePanel
 			if ((key + 1) % (FADE_INCREMENTS * 2) == 0)
 			{
 				if (stringCounter == 0)
-					midiPlayer.play(midi, false); // begin intro música
+					midiPlayer.play(midi, false); // begin intro musica
 				stringCounter++;
 			}
 			

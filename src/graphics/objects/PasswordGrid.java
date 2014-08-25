@@ -36,7 +36,7 @@ public class PasswordGrid
 		
 		selector = new OrbSelector(rows, cols);
 		
-		String imageBase = "resources/images/overworld/";
+		String imageBase = "res/images/overworld/";
 		orb = Utility.loadImage(imageBase + "orb.png");
 		grid = Utility.loadImage(imageBase + "grid.png");
 		

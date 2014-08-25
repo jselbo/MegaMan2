@@ -17,7 +17,7 @@ public class Airman extends Boss
 	{
 		Animation[] anims = new Animation[NUM_STATES];
 		
-		String base = "resources/images/bosses/airman/";
+		String base = "res/images/bosses/airman/";
 		
 		Image idle = Utility.loadImage(base + "idle.png");
 		Image blow1 = Utility.loadImage(base + "blow1.png");

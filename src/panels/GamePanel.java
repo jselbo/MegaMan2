@@ -50,7 +50,7 @@ public abstract class GamePanel extends JPanel
 		this.midiPlayer = state.getMidiPlayer();
 		
 		try {
-			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/game_font.ttf"));
+			Font font = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/game_font.ttf"));
 			gameFont = font.deriveFont(16f);
 		}
 		catch (IOException ioex) {

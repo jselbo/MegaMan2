@@ -20,8 +20,8 @@ public class Health extends Sprite
 		Animation[] anims = new Animation[1];
 		
 		anims[0] = new Animation(true);
-		anims[0].addFrame(Utility.loadImage("resources/images/tilesets/temp/health1.png"), 200);
-		anims[0].addFrame(Utility.loadImage("resources/images/tilesets/temp/health2.png"), 200);
+		anims[0].addFrame(Utility.loadImage("res/images/tilesets/temp/health1.png"), 200);
+		anims[0].addFrame(Utility.loadImage("res/images/tilesets/temp/health2.png"), 200);
 		
 		return anims;
 	}

@@ -69,13 +69,13 @@ public class PasswordPanel extends GamePanel
 		
 		selector = new Selector(1, 2 * Utility.SPRITE_SIZE);
 		
-		String midiBase = "resources/audio/midis/";
+		String midiBase = "res/audio/midis/";
 		pwMidi = midiPlayer.getSequence(midiBase + "password.mid");
 		
-		String soundBase = "resources/audio/sound_effects/";
+		String soundBase = "res/audio/sound_effects/";
 		blip = soundManager.getSound(soundBase + "blip1.wav");
 		
-		String imageBase = "resources/images/overworld/";
+		String imageBase = "res/images/overworld/";
 		
 		tileBackground = Utility.loadImage(imageBase + "tile_background.png");
 		
