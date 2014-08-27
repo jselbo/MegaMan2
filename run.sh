@@ -1,3 +1,4 @@
+mkdir -p bin
 cd ./bin/
 rm -rf *
 cd ..
