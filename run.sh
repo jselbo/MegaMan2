@@ -5,4 +5,4 @@ cd ..
 cp -r res bin
 javac -d ./bin **/*.java
 cd ./bin/
-java application.Main
+java $1.Main
