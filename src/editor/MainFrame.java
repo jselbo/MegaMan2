@@ -30,6 +30,12 @@ public class MainFrame extends JFrame {
         pane.setLayout(new GridBagLayout());
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setResizable(true);
+        setupMenuBar();
+        setupPanels(pane);
+        // TODO: Add UI widgets
+    }
+
+    private void setupMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menu.setMnemonic(KeyEvent.VK_F);
@@ -85,7 +91,19 @@ public class MainFrame extends JFrame {
         menu.add(jmi);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
-        // TODO: Add UI widgets
+    }
+
+    private void setupPanels(Container pane) {
+        JButton tools = new JButton("stuff");
+        //tools.setBackground(Color.BLACK);
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 3;
+        c.weightx = 0;
+        c.ipady = 40;
+        c.gridwidth = 2;
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(tools, c);
     }
     
     private void initializeEvents() {
