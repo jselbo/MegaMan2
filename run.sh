@@ -1,5 +1,5 @@
 if [ $# -eq 0 ]; then
-    echo "No arguments provided. Please specify the library on which Main is run. i.e application or editor"
+    echo "Usage: run.sh {application|editor}"
     exit 1
 fi
 

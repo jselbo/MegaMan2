@@ -12,4 +12,3 @@ cp -r res bin
 echo "Compiling..."
 # Compile all Java files in src/
 find src -name "*.java" | xargs javac -d bin
-
