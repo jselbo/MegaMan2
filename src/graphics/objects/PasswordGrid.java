@@ -10,10 +10,8 @@ import java.util.Arrays;
 
 import application.Utility;
 
-public class PasswordGrid
-{
-  private static final char[] ALPHABET =
-    { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+public class PasswordGrid {
+  private static final char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
       'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
       'U', 'V', 'W', 'X', 'Y', 'Z' };
 
@@ -28,8 +26,7 @@ public class PasswordGrid
   private int numOrbs;
   private int maxOrbs;
 
-  public PasswordGrid(int rows, int cols, int maxOrbs)
-  {
+  public PasswordGrid(int rows, int cols, int maxOrbs) {
     this.maxOrbs = maxOrbs;
 
     pwGrid = new boolean[rows][cols];
@@ -43,13 +40,11 @@ public class PasswordGrid
     numOrbs = 0;
   }
 
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     g2.setColor(Color.white);
 
     // Draw letters
-    for (int i = 0; i < pwGrid.length; i++)
-    {
+    for (int i = 0; i < pwGrid.length; i++) {
       int x = corner.x - 2 * Utility.SPRITE_SIZE;
       int y = (int)((float)Utility.SPRITE_SIZE * (2*i + 1.5f)) + corner.y;
       char c = ALPHABET[i % ALPHABET.length];
@@ -57,18 +52,15 @@ public class PasswordGrid
     }
 
     // Draw numbers
-    for (int i = 0; i < pwGrid[0].length; i++)
-    {
+    for (int i = 0; i < pwGrid[0].length; i++) {
       int x = (int)((float)Utility.SPRITE_SIZE * (2*i + 0.5f)) + corner.x;
       int y = corner.y - Utility.SPRITE_SIZE;
       g2.drawString(Integer.toString(i+1), x, y);
     }
 
     // Draw grid and orbs
-    for (int i = 0; i < pwGrid.length; i++)
-    {
-      for (int j = 0; j < pwGrid[i].length; j++)
-      {
+    for (int i = 0; i < pwGrid.length; i++) {
+      for (int j = 0; j < pwGrid[i].length; j++) {
         int gridX = 2 * Utility.SPRITE_SIZE * j + corner.x;
         int gridY = 2 * Utility.SPRITE_SIZE * i + corner.y;
         g2.drawImage(grid, gridX, gridY, null);
@@ -80,67 +72,55 @@ public class PasswordGrid
     selector.paint(g2);
   }
 
-  public void update(long elapsedTime)
-  {
+  public void update(long elapsedTime) {
     selector.update(elapsedTime);
   }
 
-  public void addOrb()
-  {
-    if (numOrbs < maxOrbs)
-    {
+  public void addOrb() {
+    if (numOrbs < maxOrbs) {
       int row = selector.getRow(), column = selector.getColumn();
-      if (!pwGrid[row][column])
-      {
+      if (!pwGrid[row][column]) {
         pwGrid[row][column] = true;
         numOrbs++;
       }
     }
   }
 
-  public void removeOrb()
-  {
+  public void removeOrb() {
     int row = selector.getRow(), column = selector.getColumn();
-    if (pwGrid[row][column])
-    {
+    if (pwGrid[row][column]) {
       pwGrid[row][column] = false;
       numOrbs--;
     }
   }
 
-  public int numOrbs()
-  {
+  public int numOrbs() {
     return numOrbs;
   }
 
-  public int maxOrbs()
-  {
+  public int maxOrbs() {
     return maxOrbs;
   }
 
-  public void setSelectorEnabled(boolean enabled)
-  {
+  public void setSelectorEnabled(boolean enabled) {
     selector.setEnabled(enabled);
   }
 
-  public void setCorner(Point corner)
-  {
+  public void setCorner(Point corner) {
     this.corner = corner;
 
     selector.setPosition(corner.x + 2 * Utility.SPRITE_SIZE * selector.getColumn() + 4,
         corner.y + 2 * Utility.SPRITE_SIZE * selector.getRow() + 4);
   }
 
-  public void move(Direction direction)
-  {
+  public void move(Direction direction) {
     selector.move(direction);
 
     selector.setPosition(corner.x + 2 * Utility.SPRITE_SIZE * selector.getColumn() + 4,
         corner.y + 2 * Utility.SPRITE_SIZE * selector.getRow() + 4);
   }
 
-  public void reset()
-  {
+  public void reset() {
     for (boolean[] a : pwGrid)
       Arrays.fill(a, false);
 
@@ -152,18 +132,15 @@ public class PasswordGrid
    *
    * @return the GameState indicated by the password grid, or null if invalid pattern
    */
-  /*public GameState getGameState()
-  {
+  /*public GameState getGameState() {
     if (numOrbs != maxOrbs)
       return null;
 
     GameState state = new GameState();
 
     int numTanks = -1;
-    for (int i = 0; i < pwGrid[0].length; i++)
-    {
-      if (pwGrid[0][i])
-      {
+    for (int i = 0; i < pwGrid[0].length; i++) {
+      if (pwGrid[0][i]) {
         numTanks = i;
         break;
       }
@@ -172,8 +149,7 @@ public class PasswordGrid
       return null;
     state.setEnergyTanks(numTanks);
 
-    switch (numTanks)
-    {
+    switch (numTanks) {
     case 0:
       if (pwGrid[4][2])
         state.setBeaten(GameState.AIRMAN, true);

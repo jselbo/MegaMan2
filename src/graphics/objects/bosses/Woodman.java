@@ -6,15 +6,12 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class Woodman extends Boss
-{
-  public Woodman()
-  {
+public class Woodman extends Boss {
+  public Woodman() {
     super(loadAnimations());
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[NUM_STATES];
 
     String base = "res/images/bosses/woodman/";
@@ -41,8 +38,7 @@ public class Woodman extends Boss
   }
 
   @Override
-  public String getName()
-  {
+  public String getName() {
     return "Woodman";
   }
 }

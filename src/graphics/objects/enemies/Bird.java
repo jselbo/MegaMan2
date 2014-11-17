@@ -5,32 +5,27 @@ import graphics.Direction;
 import application.GameState;
 import application.Utility;
 
-public class Bird extends Enemy
-{
+public class Bird extends Enemy {
   private static final int STATE_FLYING = 1;
 
   private static final float VELOCITIES[] = { 0.5f, 0.4f, 0.3f };
 
   private int type;
 
-  public Bird(int y, Direction direction, int type, int difficulty)
-  {
+  public Bird(int y, Direction direction, int type, int difficulty) {
     super(loadAnimations(type));
 
     this.y = y;
     this.direction = direction;
     this.type = type;
 
-    if (direction == Direction.RIGHT)
-    {
+    if (direction == Direction.RIGHT) {
       x = -width;
       if (difficulty == GameState.NORMAL)
         vx = VELOCITIES[type]/2;
       else
         vx = VELOCITIES[type];
-    }
-    else
-    {
+    } else {
       x = 16*32;
       if (difficulty == GameState.NORMAL)
         vx = -VELOCITIES[type]/2;
@@ -41,8 +36,7 @@ public class Bird extends Enemy
     setState(STATE_FLYING);
   }
 
-  private static Animation[] loadAnimations(int type)
-  {
+  private static Animation[] loadAnimations(int type) {
     Animation[] anims = new Animation[2];
 
     String base = "res/images/enemies/";
@@ -66,14 +60,12 @@ public class Bird extends Enemy
     return anims;
   }
 
-  public int getType()
-  {
+  public int getType() {
     return type;
   }
 
   @Override
-  public String toString()
-  {
+  public String toString() {
     return "Bird";
   }
 }

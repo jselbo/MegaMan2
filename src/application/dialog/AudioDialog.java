@@ -15,12 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.Border;
 
-public class AudioDialog extends JDialog
-{
+public class AudioDialog extends JDialog {
   private static final long serialVersionUID = 1L;
 
-  public AudioDialog(JFrame owner, String title, boolean modal)
-  {
+  public AudioDialog(JFrame owner, String title, boolean modal) {
     super(owner, title, modal);
 
     AudioPanel panel = new AudioPanel();
@@ -29,12 +27,10 @@ public class AudioDialog extends JDialog
     pack();
   }
 
-  private class AudioPanel extends JPanel
-  {
+  private class AudioPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    public AudioPanel()
-    {
+    public AudioPanel() {
       setLayout(new BorderLayout());
 
       JPanel mainPanel = new JPanel();

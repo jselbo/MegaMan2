@@ -8,20 +8,17 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class Selector extends Sprite
-{
+public class Selector extends Sprite {
   private int position;
   private int max; // maximum range of selection
   private int ySpacing; // distance between selections
   private boolean enabled;
 
-  public Selector(int max)
-  {
+  public Selector(int max) {
     this(max, 0);
   }
 
-  public Selector(int max, int ySpacing)
-  {
+  public Selector(int max, int ySpacing) {
     super(loadAnimations());
 
     position = 0;
@@ -32,8 +29,7 @@ public class Selector extends Sprite
     setMax(max);
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[1];
 
     Animation anim = new Animation();
@@ -47,66 +43,55 @@ public class Selector extends Sprite
   }
 
   @Override
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     if (enabled)
       super.paint(g2);
   }
 
-  public void setMax(int max)
-  {
+  public void setMax(int max) {
     if (max < 0)
       throw new IllegalArgumentException("Maximum selection cannot be negative.");
     this.max = max;
   }
 
-  public int getMax()
-  {
+  public int getMax() {
     return max;
   }
 
-  public void increment()
-  {
+  public void increment() {
     position++;
     setY(getY() + ySpacing);
 
-    if (position > max)
-    {
+    if (position > max) {
       setY(getY() - ySpacing * position);
       position = 0;
     }
   }
 
-  public void decrement()
-  {
+  public void decrement() {
     position--;
     setY(getY() - ySpacing);
 
-    if (position < 0)
-    {
+    if (position < 0) {
       setY(getY() + ySpacing * (max+1));
       position = max;
     }
   }
 
-  public void reset()
-  {
+  public void reset() {
     position = 0;
     setY(getY() - ySpacing * position);
   }
 
-  public int getIndex()
-  {
+  public int getIndex() {
     return position;
   }
 
-  public void setEnabled(boolean enabled)
-  {
+  public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
 
-  public boolean isEnabled()
-  {
+  public boolean isEnabled() {
     return enabled;
   }
 }

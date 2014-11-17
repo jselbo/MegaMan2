@@ -20,8 +20,7 @@ import application.GameState;
 import application.Utility;
 import audio.Sound;
 
-public class PasswordPanel extends GamePanel
-{
+public class PasswordPanel extends GamePanel {
   private static final long serialVersionUID = 1L;
 
   private static final int FADE_INCREMENTS = 3; // number of increments for a complete fade
@@ -60,8 +59,7 @@ public class PasswordPanel extends GamePanel
   private boolean acceptKeyEvents;
   private int upTime, downTime, leftTime, rightTime;
 
-  public PasswordPanel(GameState state)
-  {
+  public PasswordPanel(GameState state) {
     super(state);
     setBackground(Color.black);
 
@@ -109,12 +107,10 @@ public class PasswordPanel extends GamePanel
   }
 
   @Override
-  public void start()
-  {
+  public void start() {
     super.start();
 
-    if (firstRun)
-    {
+    if (firstRun) {
       frameState = FrameState.PASSWORD;
 
       selector.setPosition(11 * Utility.SPRITE_SIZE, 12 * Utility.SPRITE_SIZE);
@@ -142,16 +138,13 @@ public class PasswordPanel extends GamePanel
       acceptKeyEvents = true;
 
       midiPlayer.play(pwMidi, true);
-    }
-    else
-    {
+    } else {
       frameState = FrameState.LEVEL_END;
     }
   }
 
   @Override
-  public void paintComponent(Graphics g)
-  {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
@@ -169,15 +162,11 @@ public class PasswordPanel extends GamePanel
     g2.drawImage(tileBackground, 0, 0, null);
 
 
-    if (frameState != null)
-    {
-      if (transitioning)
-      {
+    if (frameState != null) {
+      if (transitioning) {
         paintLeftFrame(g2);
         paintRightFrame(g2);
-      }
-      else
-      {
+      } else {
         if (frame)
           paintRightFrame(g2);
         else
@@ -186,10 +175,8 @@ public class PasswordPanel extends GamePanel
     }
   }
 
-  private void paintLeftFrame(Graphics2D g2)
-  {
-    switch (frameState)
-    {
+  private void paintLeftFrame(Graphics2D g2) {
+    switch (frameState) {
     case PASSWORD:
       g2.setColor(this.getBackground());
       g2.fillRect(selectorPos.x, selectorPos.y, selectorBox.getWidth(null) - Utility.SPRITE_SIZE,
@@ -215,10 +202,8 @@ public class PasswordPanel extends GamePanel
     }
   }
 
-  private void paintRightFrame(Graphics2D g2)
-  {
-    switch (frameState)
-    {
+  private void paintRightFrame(Graphics2D g2) {
+    switch (frameState) {
     case PASSWORD:
       g2.setColor(this.getBackground());
       g2.fillRect(passwordPos.x, passwordPos.y, passwordBox.getWidth(null) - Utility.SPRITE_SIZE,
@@ -249,16 +234,13 @@ public class PasswordPanel extends GamePanel
   }
 
   @Override
-  public void updateGame(long elapsedTime)
-  {
+  public void updateGame(long elapsedTime) {
     if (acceptKeyEvents)
       processInput(elapsedTime);
 
-    switch (frameState)
-    {
+    switch (frameState) {
     case PASSWORD:
-      if (fading)
-      {
+      if (fading) {
         cumFadeTime += elapsedTime;
         int interval = (int)(cumFadeTime / FADE_TIME);
         if (transitioning)
@@ -266,24 +248,20 @@ public class PasswordPanel extends GamePanel
         else
           opacity = 255 / FADE_INCREMENTS * interval;
 
-        if (interval >= FADE_INCREMENTS)
-        {
+        if (interval >= FADE_INCREMENTS) {
           fading = false;
           cumFadeTime = 0;
           if (!transitioning)
             acceptKeyEvents = true;
         }
-      }
-      else if (transitioning)
-      {
+      } else if (transitioning) {
         float dx = TRANS_SPEED * elapsedTime;
         dx *= frame ? 1 : -1; // if on left frame, transition right, else left
         selectorPos.setLocation(selectorPos.x + dx, selectorPos.y);
         passwordPos.setLocation(passwordPos.x + dx, passwordPos.y);
         orbPos.setLocation(orbPos.x + dx, orbPos.y);
 
-        if (passwordPos.x <= 4 * Utility.SPRITE_SIZE) // done transitioning
-        {
+        if (passwordPos.x <= 4 * Utility.SPRITE_SIZE) { // done transitioning
           selectorPos.setLocation((10-32) * Utility.SPRITE_SIZE, selectorPos.y);
           passwordPos.setLocation(4 * Utility.SPRITE_SIZE, passwordPos.y);
           orbPos.setLocation(24 * Utility.SPRITE_SIZE, orbPos.y);
@@ -299,13 +277,10 @@ public class PasswordPanel extends GamePanel
         }
       }
 
-      if (frame)
-      {
+      if (frame) {
         pwGrid.update(elapsedTime);
         orbCount.update(elapsedTime);
-      }
-      else
-      {
+      } else {
         selector.update(elapsedTime);
       }
       break;
@@ -314,125 +289,92 @@ public class PasswordPanel extends GamePanel
     }
   }
 
-  private void processInput(long elapsedTime)
-  {
-    switch (frameState)
-    {
+  private void processInput(long elapsedTime) {
+    switch (frameState) {
     case PASSWORD:
-      if (!frame) // start/password selection
-      {
-        if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN))
-        {
+      if (!frame) { // start/password selection
+        if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN)) {
           soundManager.play(blip);
           selector.increment();
         }
-        if (inputListener.hardKeyQuery(KeyEvent.VK_UP))
-        {
+        if (inputListener.hardKeyQuery(KeyEvent.VK_UP)) {
           soundManager.play(blip);
           selector.decrement();
         }
-        if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER))
-        {
-          if (selector.getIndex() == 0) // start
-          {
+        if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER)) {
+          if (selector.getIndex() == 0) { // start
             acceptKeyEvents = false;
             midiPlayer.stop();
             setDone(true);
             //firstRun = false;
-          }
-          else if (selector.getIndex() == 1) // password
-          {
+          } else if (selector.getIndex() == 1) { // password
             /*acceptKeyEvents = false;
             selector.setEnabled(false);
             fading = true;
             transitioning = true;*/
           }
         }
-      }
-      else // password grid
-      {
-        if (inputListener.softKeyQuery(KeyEvent.VK_LEFT))
-        {
+      } else { // password grid
+        if (inputListener.softKeyQuery(KeyEvent.VK_LEFT)) {
           leftTime += elapsedTime;
-          if (leftTime >= 267)
-          {
+          if (leftTime >= 267) {
             leftTime = 0;
             pwGrid.move(Direction.LEFT);
           }
-        }
-        else if (leftTime > 0)
-        {
+        } else if (leftTime > 0) {
           leftTime = 0;
           pwGrid.move(Direction.LEFT);
         }
 
-        if (inputListener.softKeyQuery(KeyEvent.VK_RIGHT))
-        {
+        if (inputListener.softKeyQuery(KeyEvent.VK_RIGHT)) {
           rightTime += elapsedTime;
-          if (rightTime >= 267)
-          {
+          if (rightTime >= 267) {
             rightTime = 0;
             pwGrid.move(Direction.RIGHT);
           }
-        }
-        else if (rightTime > 0)
-        {
+        } else if (rightTime > 0) {
           rightTime = 0;
           pwGrid.move(Direction.RIGHT);
         }
 
-        if (inputListener.softKeyQuery(KeyEvent.VK_DOWN))
-        {
+        if (inputListener.softKeyQuery(KeyEvent.VK_DOWN)) {
           downTime += elapsedTime;
-          if (downTime >= 267)
-          {
+          if (downTime >= 267) {
             downTime = 0;
             pwGrid.move(Direction.DOWN);
           }
-        }
-        else if (downTime > 0)
-        {
+        } else if (downTime > 0) {
           downTime = 0;
           pwGrid.move(Direction.DOWN);
         }
 
-        if (inputListener.softKeyQuery(KeyEvent.VK_UP))
-        {
+        if (inputListener.softKeyQuery(KeyEvent.VK_UP)) {
           upTime += elapsedTime;
-          if (upTime >= 267)
-          {
+          if (upTime >= 267) {
             upTime = 0;
             pwGrid.move(Direction.UP);
           }
-        }
-        else if (upTime > 0)
-        {
+        } else if (upTime > 0) {
           upTime = 0;
           pwGrid.move(Direction.UP);
         }
 
-        if (inputListener.hardKeyQuery(KeyEvent.VK_Z))
-        {
+        if (inputListener.hardKeyQuery(KeyEvent.VK_Z)) {
           pwGrid.removeOrb();
           orbCount.getAnimation().setText(Integer.toString(pwGrid.maxOrbs() - pwGrid.numOrbs()));
         }
-        if (inputListener.hardKeyQuery(KeyEvent.VK_X))
-        {
+        if (inputListener.hardKeyQuery(KeyEvent.VK_X)) {
           pwGrid.addOrb();
           orbCount.getAnimation().setText(Integer.toString(pwGrid.maxOrbs() - pwGrid.numOrbs()));
-          if (pwGrid.numOrbs() >= pwGrid.maxOrbs())
-          {
+          if (pwGrid.numOrbs() >= pwGrid.maxOrbs()) {
             acceptKeyEvents = false;
             pwGrid.setSelectorEnabled(false);
             orbCount.setEnabled(false);
 
             /*GameState newState = pwGrid.getGameState();
-            if (newState == null)
-            {
+            if (newState == null) {
 
-            }
-            else
-            {
+            } else {
               state = newState;
             }*/
           }
@@ -444,8 +386,7 @@ public class PasswordPanel extends GamePanel
     }
   }
 
-  public enum FrameState
-  {
+  public enum FrameState {
     PASSWORD, LEVEL_END;
   }
 }

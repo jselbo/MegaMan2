@@ -25,8 +25,7 @@ import application.GameState;
 import application.Utility;
 import audio.Sound;
 
-public class LevelSelectPanel extends GamePanel
-{
+public class LevelSelectPanel extends GamePanel {
   private static final long serialVersionUID = 1L;
   private static final float[] STAR_SPEEDS = { 0.5f, 0.15f, 0.02f }; // pixels per millisecond
   private static final float FALL_SPEED = 0.6f;
@@ -55,8 +54,7 @@ public class LevelSelectPanel extends GamePanel
   private boolean flash; // only used when flashing, alternates
   private long flashTime;
 
-  public LevelSelectPanel(GameState state)
-  {
+  public LevelSelectPanel(GameState state) {
     super(state);
     setBackground(Color.black);
 
@@ -93,8 +91,7 @@ public class LevelSelectPanel extends GamePanel
 
     stars = new Image[6];
     String starBase = "res/images/overworld/stars/";
-    for (int i = 0; i < 3; i++)
-    {
+    for (int i = 0; i < 3; i++) {
       stars[i] = Utility.loadImage(starBase + "top" + (i+1) + ".png");
       stars[i+3] = Utility.loadImage(starBase + "bottom" + (i+1) + ".png");
     }
@@ -108,8 +105,7 @@ public class LevelSelectPanel extends GamePanel
   }
 
   @Override
-  public void paintComponent(Graphics g)
-  {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
@@ -124,10 +120,8 @@ public class LevelSelectPanel extends GamePanel
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setFont(gameFont);
 
-    if (frameState == 0)
-    {
-      if (flashing)
-      {
+    if (frameState == 0) {
+      if (flashing) {
         if (flash)
           g2.setXORMode(Color.gray);
         else
@@ -137,24 +131,19 @@ public class LevelSelectPanel extends GamePanel
       g2.drawImage(background, 0, 0, null);
 
       g2.setColor(Color.white);
-      for (int i = 0; i < icons.length; i++)
-      {
-        for (int j = 0; j < icons[i].length; j++)
-        {
+      for (int i = 0; i < icons.length; i++) {
+        for (int j = 0; j < icons[i].length; j++) {
           int x = 5*Utility.SPRITE_SIZE + 8*Utility.SPRITE_SIZE*j;
           int y = (int)(3.25*Utility.SPRITE_SIZE) + 8*Utility.SPRITE_SIZE*i;
           g2.drawImage(icons[i][j].icon, x, y, null);
 
           boxSelector.paint(g2);
 
-          if (icons[i][j].beaten)
-          {
+          if (icons[i][j].beaten) {
             g2.setColor(Color.black);
             g2.fillRect(x + Utility.SPRITE_SIZE, y + Utility.SPRITE_SIZE,
                 4 * Utility.SPRITE_SIZE, 4 * Utility.SPRITE_SIZE);
-          }
-          else
-          {
+          } else {
             if (icons[i][j].line1.length() > 3)
               g2.drawString(icons[i][j].line1,
                   x - (int)(0.25*Utility.SPRITE_SIZE),
@@ -168,11 +157,8 @@ public class LevelSelectPanel extends GamePanel
           }
         }
       }
-    }
-    else if (frameState == 1)
-    {
-      for (int i = 0; i < starPos.length; i++)
-      {
+    } else if (frameState == 1) {
+      for (int i = 0; i < starPos.length; i++) {
         g2.drawImage(stars[i], (int)starPos[i] - stars[i].getWidth(null), 0, null);
         g2.drawImage(stars[i], (int)starPos[i], 0, null);
         g2.drawImage(stars[i+3], (int)starPos[i] - stars[i+3].getWidth(null), dim.height - stars[i+3].getHeight(null), null);
@@ -183,8 +169,7 @@ public class LevelSelectPanel extends GamePanel
 
       boss.paint(g2);
 
-      if (bossState >= 3)
-      {
+      if (bossState >= 3) {
         g2.setColor(Color.white);
         g2.drawString(name, Utility.xCenterText(name, gameFont, dim), dim.height/2 + 25);
       }
@@ -192,8 +177,7 @@ public class LevelSelectPanel extends GamePanel
   }
 
   @Override
-  public void start()
-  {
+  public void start() {
     super.start();
 
     for (int i = 0; i < GameState.NUM_BOSSES; i++)
@@ -216,45 +200,34 @@ public class LevelSelectPanel extends GamePanel
   }
 
   @Override
-  public void updateGame(long elapsedTime)
-  {
-    if (frameState == 0)
-    {
-      if (flashing)
-      {
+  public void updateGame(long elapsedTime) {
+    if (frameState == 0) {
+      if (flashing) {
         flashTime += elapsedTime;
         flash = ((flashTime / 67) % 2 == 0);
 
-        if (flashTime > 1000)
-        {
+        if (flashTime > 1000) {
           flashing = false;
 
           midiPlayer.play(levelIntroMidi, false);
 
           frameState = 1;
         }
-      }
-      else
-      {
+      } else {
         boxSelector.update(elapsedTime);
         processInput();
       }
-    }
-    else // frameState == 1
-    {
-      for (int i = 0; i < starPos.length; i++)
-      {
+    } else {
+      for (int i = 0; i < starPos.length; i++) {
         starPos[i] += STAR_SPEEDS[i] * elapsedTime;
         if (starPos[i] >= dim.width)
           starPos[i] = 0;
       }
 
       starTime += elapsedTime;
-      switch (bossState)
-      {
+      switch (bossState) {
       case 0:
-        if (starTime > 500)
-        {
+        if (starTime > 500) {
           boss.setState(Boss.STATE_FALL);
 
           starTime = 0;
@@ -264,8 +237,7 @@ public class LevelSelectPanel extends GamePanel
       case 1:
         boss.setY(boss.getY() + elapsedTime * FALL_SPEED);
         int destY = stars[0].getHeight(null) + banner.getHeight(null)/2 - boss.getHeight()/2 - 15;
-        if (boss.getY() >= destY)
-        {
+        if (boss.getY() >= destY) {
           boss.setY(destY);
           boss.setState(Boss.STATE_TAUNT);
 
@@ -274,8 +246,7 @@ public class LevelSelectPanel extends GamePanel
         }
         break;
       case 2:
-        if (starTime > 2500)
-        {
+        if (starTime > 2500) {
           name = "";
           starTime = 0;
           bossState++;
@@ -285,8 +256,7 @@ public class LevelSelectPanel extends GamePanel
         int letters = (int)starTime / 200;
         if (letters < boss.getName().length())
           name = boss.getName().substring(0, letters+1);
-        else if (letters > boss.getName().length() + 4)
-        {
+        else if (letters > boss.getName().length() + 4) {
           starTime = 0;
           bossState++;
         }
@@ -301,12 +271,9 @@ public class LevelSelectPanel extends GamePanel
     }
   }
 
-  private void processInput()
-  {
-    if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER))
-    {
-      if (!icons[row][col].beaten && row == 1 && col == 1)
-      {
+  private void processInput() {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER)) {
+      if (!icons[row][col].beaten && row == 1 && col == 1) {
         flashing = true;
         midiPlayer.stop();
 
@@ -318,61 +285,50 @@ public class LevelSelectPanel extends GamePanel
     }
 
     boolean moved = false;
-    if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN))
-    {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN)) {
       moved = true;
       if (row < 2)
         row++;
     }
-    if (inputListener.hardKeyQuery(KeyEvent.VK_UP))
-    {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_UP)) {
       moved = true;
       if (row > 0)
         row--;
     }
-    if (inputListener.hardKeyQuery(KeyEvent.VK_RIGHT))
-    {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_RIGHT)) {
       moved = true;
       if (col < 2)
         col++;
     }
-    if (inputListener.hardKeyQuery(KeyEvent.VK_LEFT))
-    {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_LEFT)) {
       moved = true;
       if (col > 0)
         col--;
     }
 
-    if (moved)
-    {
+    if (moved) {
       boxSelector.setPosition(5*Utility.SPRITE_SIZE + 8*Utility.SPRITE_SIZE*col,
           (int)(3.25*Utility.SPRITE_SIZE) + 8*Utility.SPRITE_SIZE*row);
       soundManager.play(blip);
     }
   }
 
-  private Boss loadBoss()
-  {
-    if (row == 0)
-    {
+  private Boss loadBoss() {
+    if (row == 0) {
       if (col == 0)
         return new Bubbleman();
       else if (col == 1)
         return new Airman();
       else
         return new Quickman();
-    }
-    else if (row == 1)
-    {
+    } else if (row == 1) {
       if (col == 0)
         return new Heatman();
       else if (col == 1)
         return new Airman();
       else
         return new Woodman();
-    }
-    else
-    {
+    } else {
       if (col == 0)
         return new Metalman();
       else if (col == 1)
@@ -382,14 +338,12 @@ public class LevelSelectPanel extends GamePanel
     }
   }
 
-  private class BossIcon
-  {
+  private class BossIcon {
     final Image icon;
     final String line1, line2;
     boolean beaten;
 
-    public BossIcon(Image icon, String line1, String line2, boolean beaten)
-    {
+    public BossIcon(Image icon, String line1, String line2, boolean beaten) {
       this.icon = icon;
       this.line1 = line1;
       this.line2 = line2;

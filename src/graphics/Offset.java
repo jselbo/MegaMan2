@@ -5,7 +5,6 @@ package graphics;
  * the given animation are the dimensions of the first image.
  *
  */
-public enum Offset
-{
+public enum Offset {
   DEFAULT;
 }

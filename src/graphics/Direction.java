@@ -5,7 +5,6 @@ package graphics;
  * Used for sprite orientations and movements.
  *
  */
-public enum Direction
-{
+public enum Direction {
   UP, DOWN, LEFT, RIGHT;
 }

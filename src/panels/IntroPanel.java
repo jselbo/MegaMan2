@@ -21,8 +21,7 @@ import application.GameState;
 import application.Utility;
 import audio.Sound;
 
-public class IntroPanel extends GamePanel
-{
+public class IntroPanel extends GamePanel {
   private static final long serialVersionUID = 1L;
   private static final long FADE_TIME = 600L; // total time (milliseconds) for a complete fade-in or fade-out
   private static final long FADE_PAUSE = 4000L; // time (milliseconds) during which the text pauses between fades
@@ -80,8 +79,7 @@ public class IntroPanel extends GamePanel
   private long roofTime; // total elapsed milliseconds spent on roof, cumulative (resets after repeat)
   private boolean repeat; // should the intro repeat?
 
-  public IntroPanel(GameState state)
-  {
+  public IntroPanel(GameState state) {
     super(state);
 
     setBackground(Color.black);
@@ -118,8 +116,7 @@ public class IntroPanel extends GamePanel
   }
 
   @Override
-  public void start()
-  {
+  public void start() {
     super.start();
 
     midiPlayer.stop();
@@ -155,8 +152,7 @@ public class IntroPanel extends GamePanel
     buildingSpeed = 0;
   }
 
-  private void initializeTextData()
-  {
+  private void initializeTextData() {
     textData = new String[6][]; // change to 6
     textData[0] = new String[9];
     textData[0][0] = "\u00A91988 CAPCOM CO. LTD";
@@ -199,11 +195,9 @@ public class IntroPanel extends GamePanel
     textData[5][0] = "GOOD LUCK MEGAMAN.";
 
     textPoints = new Point[textData.length][];
-    for (int i = 0; i < textData.length; i++)
-    {
+    for (int i = 0; i < textData.length; i++) {
       textPoints[i] = new Point[textData[i].length];
-      for (int j = 0; j < textData[i].length; j++)
-      {
+      for (int j = 0; j < textData[i].length; j++) {
         int x = Utility.xCenterText(textData[i][j], gameFont, dim);
         int y = (i == 0) ? (2 * dim.height / 5) + (30 * j) : dim.height - 70 + (30 * j);
         textPoints[i][j] = new Point(x, y);
@@ -211,10 +205,8 @@ public class IntroPanel extends GamePanel
     }
 
     difficulties = new String[GameState.NUM_DIFFICULTIES];
-    for (int i = 0; i < difficulties.length; i++)
-    {
-      switch (i)
-      {
+    for (int i = 0; i < difficulties.length; i++) {
+      switch (i) {
       case 0:
         difficulties[i] = "NORMAL";
         break;
@@ -227,17 +219,14 @@ public class IntroPanel extends GamePanel
     start = "PRESS START";
   }
 
-  private void initializeTriggers()
-  {
+  private void initializeTriggers() {
     int tempCount = 0;
 
     // Text fading triggers
     long fadeTime = FADE_TIME / FADE_INCREMENTS;
-    for (int i = 0; i < textData.length; i++)
-    {
+    for (int i = 0; i < textData.length; i++) {
       int max = (i == 0) ? FADE_INCREMENTS : FADE_INCREMENTS * 2 - 1;
-      for (int j = 0; j < max; j++)
-      {
+      for (int j = 0; j < max; j++) {
         if (tempCount == 0)
           triggers[tempCount] = fadeTime;
         else
@@ -251,8 +240,7 @@ public class IntroPanel extends GamePanel
     }
 
     // Fade out for final text
-    for (int i = 0; i < FADE_INCREMENTS; i++)
-    {
+    for (int i = 0; i < FADE_INCREMENTS; i++) {
       triggers[tempCount] = triggers[tempCount - 1] + fadeTime;
       tempCount++;
     }
@@ -261,8 +249,7 @@ public class IntroPanel extends GamePanel
 
     // Camera panning triggers
     long panTime = 1000L / FPS;
-    for (int i = 0; i < RISE_TIME * FPS; i++)
-    {
+    for (int i = 0; i < RISE_TIME * FPS; i++) {
       triggers[tempCount] = triggers[tempCount - 1] + panTime;
       tempCount++;
     }
@@ -271,8 +258,7 @@ public class IntroPanel extends GamePanel
   }
 
   @Override
-  public void paintComponent(Graphics g)
-  {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
 
@@ -287,11 +273,9 @@ public class IntroPanel extends GamePanel
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setFont(gameFont);
 
-    if (riseDone)
-    {
+    if (riseDone) {
       int xB = (dim.width - building.getWidth(null)), yB = (int) buildingY;
-      for (int i = 0; i < 2; i++)
-      {
+      for (int i = 0; i < 2; i++) {
         g2.drawImage(building, xB, yB, null);
         yB += building.getHeight(null);
       }
@@ -316,17 +300,13 @@ public class IntroPanel extends GamePanel
       selector.paint(g2);
 
       remix.paint(g2);
-    }
-    else
-    {
-      if (showBackground)
-      {
+    } else {
+      if (showBackground) {
         int x = 0, y = (int) cityY;
         g2.drawImage(city, x, y, null);
 
         int xB = (dim.width - building.getWidth(null)), yB = (int) buildingY;
-        for (int i = 0; yB < boxY; i++)
-        {
+        for (int i = 0; yB < boxY; i++) {
           if (showNotchless && i == notchlessPosition)
             g2.drawImage(notchlessBuilding, xB, yB, null);
           else
@@ -339,15 +319,13 @@ public class IntroPanel extends GamePanel
 
         introMan.paint(g2);
 
-        if (boxY < dim.height)
-        {
+        if (boxY < dim.height) {
           g2.setColor(Color.black);
           g2.fill(new Rectangle2D.Float(0.0f, boxY, dim.width, dim.height - boxY));
         }
       }
 
-      if (stringCounter < textData.length)
-      {
+      if (stringCounter < textData.length) {
         g2.setColor(new Color(255, 255, 255, opacity));
         for (int i = 0; i < textData[stringCounter].length; i++)
           g2.drawString(textData[stringCounter][i],
@@ -361,8 +339,7 @@ public class IntroPanel extends GamePanel
   }
 
   @Override
-  public void updateGame(long elapsedTime)
-  {
+  public void updateGame(long elapsedTime) {
     totalTime += elapsedTime;
 
     introMan.update(elapsedTime);
@@ -370,12 +347,10 @@ public class IntroPanel extends GamePanel
     if (acceptKeyEvents)
       processInput();
 
-    if (riseDone)
-    {
+    if (riseDone) {
       roofTime += elapsedTime;
       // no key input, must repeat
-      if (introMan.getState() != Introman.STATE_TELEPORTING && roofTime >= 44000L)
-      {
+      if (introMan.getState() != Introman.STATE_TELEPORTING && roofTime >= 44000L) {
         acceptKeyEvents = false;
         repeat = true;
         introMan.setState(Introman.STATE_TELEPORTING);
@@ -386,14 +361,12 @@ public class IntroPanel extends GamePanel
 
       remix.update(elapsedTime);
 
-      if (!teleportCued && introMan.getState() == Introman.STATE_TELEPORTING && introMan.launched())
-      {
+      if (!teleportCued && introMan.getState() == Introman.STATE_TELEPORTING && introMan.launched()) {
         teleportCued = true;
         soundManager.play(teleport);
       }
 
-      if (introMan.teleported())
-      {
+      if (introMan.teleported()) {
         try {
           Thread.sleep(1500); // simulate slow NES loading times muahahaha
         } catch (InterruptedException e) {}
@@ -403,24 +376,18 @@ public class IntroPanel extends GamePanel
         else
           setDone(true);
       }
-    }
-    else
-    {
-      while (totalTime >= triggers[triggerCount])
-      {
+    } else {
+      while (totalTime >= triggers[triggerCount]) {
         performAction(triggerCount);
         triggerCount++;
       }
     }
   }
 
-  private void performAction(int key)
-  {
-    if (key < key1)
-    {
+  private void performAction(int key) {
+    if (key < key1) {
       opacity = (FADE_INCREMENTS - Math.abs((key + 1) % (FADE_INCREMENTS * 2) - FADE_INCREMENTS)) * 255 / FADE_INCREMENTS;
-      if ((key + 1) % (FADE_INCREMENTS * 2) == 0)
-      {
+      if ((key + 1) % (FADE_INCREMENTS * 2) == 0) {
         if (stringCounter == 0)
           midiPlayer.play(midi, false); // begin intro musica
         stringCounter++;
@@ -428,9 +395,7 @@ public class IntroPanel extends GamePanel
 
       if ((key + 1) == 2 * FADE_INCREMENTS + 1)
         showBackground = true;
-    }
-    else if (key < key2)
-    {
+    } else if (key < key2) {
       if (cityBoxSpeed < MAX_CITY_BOX_SPEED)
         cityBoxSpeed += 3.0f;
       if (buildingSpeed < MAX_BUILDING_SPEED)
@@ -442,11 +407,9 @@ public class IntroPanel extends GamePanel
       float bSpeed = buildingSpeed / FPS;
       buildingY += bSpeed;
 
-      if (key < key2 - FPS * 2 && buildingY >= 0)
-      {
+      if (key < key2 - FPS * 2 && buildingY >= 0) {
         buildingY = -building.getHeight(null);
-        if (showNotchless)
-        {
+        if (showNotchless) {
           if (notchlessPosition == 3)
             notchlessPosition = 4;
           else
@@ -454,8 +417,7 @@ public class IntroPanel extends GamePanel
         }
       }
 
-      if (buildingY >= dim.height - building.getHeight(null) - 21)
-      {
+      if (buildingY >= dim.height - building.getHeight(null) - 21) {
         buildingY = dim.height - building.getHeight(null) - 21;
         riseDone = true;
       }
@@ -464,28 +426,21 @@ public class IntroPanel extends GamePanel
     }
   }
 
-  private void processInput()
-  {
-    if (inputListener.hardKeyQuery(KeyEvent.VK_UP))
-    {
-      if (riseDone)
-      {
+  private void processInput() {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_UP)) {
+      if (riseDone) {
         selector.decrement();
         soundManager.play(blip);
       }
     }
-    if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN))
-    {
-      if (riseDone)
-      {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN)) {
+      if (riseDone) {
         selector.increment();
         soundManager.play(blip);
       }
     }
-    if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER))
-    {
-      if (riseDone)
-      {
+    if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER)) {
+      if (riseDone) {
         repeat = false;
         acceptKeyEvents = false;
         introMan.setState(Introman.STATE_TELEPORTING);
@@ -495,9 +450,7 @@ public class IntroPanel extends GamePanel
           state.setDifficulty(GameState.NORMAL);
         else
           state.setDifficulty(GameState.DIFFICULT);
-      }
-      else
-      {
+      } else {
         riseDone = true;
 
         midiPlayer.play(midi, false, 37950000L);

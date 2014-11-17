@@ -4,15 +4,13 @@ import graphics.Animation;
 import application.GameState;
 import application.Utility;
 
-public class Metroid extends Enemy
-{
+public class Metroid extends Enemy {
   public static final int STATE_FLYING = 1;
 
   private long time;
   private float w, a, xAxis;
 
-  public Metroid(float xAxis, float period, float amplitude, int difficulty, float vx)
-  {
+  public Metroid(float xAxis, float period, float amplitude, int difficulty, float vx) {
     super(loadAnimations());
 
     setState(STATE_FLYING);
@@ -29,8 +27,7 @@ public class Metroid extends Enemy
     a = amplitude;
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[2];
 
     String base = "res/images/enemies/";
@@ -47,8 +44,7 @@ public class Metroid extends Enemy
   }
 
   @Override
-  public void update(long elapsedTime)
-  {
+  public void update(long elapsedTime) {
     super.update(elapsedTime);
 
     time += elapsedTime;
@@ -56,8 +52,7 @@ public class Metroid extends Enemy
   }
 
   @Override
-  public String toString()
-  {
+  public String toString() {
     return "Metroid";
   }
 }

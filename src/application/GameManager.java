@@ -28,8 +28,7 @@ import application.dialog.AudioDialog;
 import audio.MidiPlayer;
 import audio.SoundManager;
 
-public class GameManager implements Runnable
-{
+public class GameManager implements Runnable {
   private static final int SLEEP_TIME = 10; // (int)(1000f / 30f); // (1 second) divided by (frames per second)
   private static final int START_PANEL = 0;
 
@@ -61,8 +60,7 @@ public class GameManager implements Runnable
   // Other variables
   private boolean running;
 
-  public GameManager(JFrame frame)
-  {
+  public GameManager(JFrame frame) {
     this.frame = frame;
 
     menuBar = new JMenuBar();
@@ -88,8 +86,7 @@ public class GameManager implements Runnable
     setPanel(currentPanel);
   }
 
-  private void loadProperties()
-  {
+  private void loadProperties() {
     props = new Properties();
 
     FileInputStream in = null;
@@ -112,8 +109,7 @@ public class GameManager implements Runnable
     midiPlayer.setMuted(muted);
   }
 
-  private void initializeMenuBar()
-  {
+  private void initializeMenuBar() {
     ActionListener listener = new MenuItemListener();
 
     JMenu gameMenu = new JMenu("Game");
@@ -136,23 +132,19 @@ public class GameManager implements Runnable
     menuBar.add(gameMenu);
   }
 
-  public JMenuBar getJMenuBar()
-  {
+  public JMenuBar getJMenuBar() {
     return menuBar;
   }
 
-  public void start()
-  {
+  public void start() {
     running = true;
     new Thread(this).start();
   }
 
-  public void run()
-  {
+  public void run() {
     long currentTime = System.currentTimeMillis();
 
-    while (running)
-    {
+    while (running) {
       long elapsedTime = System.currentTimeMillis() - currentTime;
       currentTime += elapsedTime;
 
@@ -164,10 +156,8 @@ public class GameManager implements Runnable
     }
   }
 
-  private void update(long elapsedTime)
-  {
-    /*if (inputListener.hardKeyQuery(KeyEvent.VK_ESCAPE))
-    {
+  private void update(long elapsedTime) {
+    /*if (inputListener.hardKeyQuery(KeyEvent.VK_ESCAPE)) {
       running = false;
 
       device.setFullScreenWindow(null);
@@ -178,10 +168,8 @@ public class GameManager implements Runnable
     panels[currentPanel].updateGame(elapsedTime);
 
     // Check if panel is done
-    if (panels[currentPanel].isDone())
-    {
-      switch (currentPanel)
-      {
+    if (panels[currentPanel].isDone()) {
+      switch (currentPanel) {
       case 0: setPanel(1);
         break;
       case 1: setPanel(2);
@@ -191,9 +179,7 @@ public class GameManager implements Runnable
       case 3: setPanel(3);
         break;
       }
-    }
-    else if (reset)
-    {
+    } else if (reset) {
       reset = false;
       setPanel(START_PANEL);
     }
@@ -202,11 +188,9 @@ public class GameManager implements Runnable
                     // NullPointerExceptions from the Graphics object (delayed painting)
   }
 
-  private void setPanel(int destinationPanel)
-  {
+  private void setPanel(int destinationPanel) {
     // Remove the current panel
-    if (panels[currentPanel] != null)
-    {
+    if (panels[currentPanel] != null) {
       panels[currentPanel].removeKeyListener(inputListener);
       panels[currentPanel].removeMouseListener(inputListener);
       panels[currentPanel].removeMouseMotionListener(inputListener);
@@ -218,10 +202,8 @@ public class GameManager implements Runnable
     inputListener.clearKeyStates();
 
     // Initialize the next panel if it hasn't been created yet
-    if (panels[destinationPanel] == null)
-    {
-      switch (destinationPanel)
-      {
+    if (panels[destinationPanel] == null) {
+      switch (destinationPanel) {
       case 0: panels[destinationPanel] = new IntroPanel(state);
         break;
       case 1: panels[destinationPanel] = new PasswordPanel(state);
@@ -249,25 +231,18 @@ public class GameManager implements Runnable
     currentPanel = destinationPanel;
   }
 
-  private class MenuItemListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
+  private class MenuItemListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
       Object source = e.getSource();
-      if (source.equals(audioMenuItem))
-      {
+      if (source.equals(audioMenuItem)) {
         if (audioDialog == null)
           audioDialog = new AudioDialog(frame, "Audio Options", true);
 
         audioDialog.setLocationRelativeTo(frame);
         audioDialog.setVisible(true);
-      }
-      else if (source.equals(resetMenuItem))
-      {
+      } else if (source.equals(resetMenuItem)) {
         reset = true;
-      }
-      else if (source.equals(aboutMenuItem))
-      {
+      } else if (source.equals(aboutMenuItem)) {
         if (aboutDialog == null)
           aboutDialog = new AboutDialog(frame);
 

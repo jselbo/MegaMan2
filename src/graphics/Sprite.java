@@ -5,8 +5,7 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class Sprite
-{
+public class Sprite {
   protected Animation[] anims;
   protected int currIndex;
 
@@ -16,13 +15,11 @@ public class Sprite
 
     protected int width, height; // set only by first image
 
-    public Sprite()
-    {
+    public Sprite() {
       this(null);
     }
 
-    public Sprite(Animation[] anims)
-    {
+    public Sprite(Animation[] anims) {
       this.anims = anims;
       currIndex = 0;
 
@@ -32,10 +29,8 @@ public class Sprite
       vy = 0;
     }
 
-    public void setState(int index)
-    {
-      if (index != currIndex && index >= 0 && index < anims.length)
-      {
+    public void setState(int index) {
+      if (index != currIndex && index >= 0 && index < anims.length) {
         x += (anims[currIndex].getImage().getWidth(null) - anims[index].getImage().getWidth(null))/2;
             y += anims[currIndex].getImage().getHeight(null) - anims[index].getImage().getHeight(null);
 
@@ -45,24 +40,20 @@ public class Sprite
       }
     }
 
-    public int getState()
-    {
+    public int getState() {
       return currIndex;
     }
 
-    public Animation getAnimation()
-    {
+    public Animation getAnimation() {
       return anims[currIndex];
     }
 
     // Allow subclasses access to all animations
-    protected Animation[] getAnimations()
-    {
+    protected Animation[] getAnimations() {
       return anims;
     }
 
-    public void update(long elapsedTime)
-    {
+    public void update(long elapsedTime) {
         x += vx * elapsedTime;
         y += vy * elapsedTime;
 
@@ -70,8 +61,7 @@ public class Sprite
         anims[currIndex].update(elapsedTime);
         int finalFrame = anims[currIndex].getCurrentIndex();
 
-        if (initialFrame != finalFrame && anims[currIndex].getImage() != null && anims[currIndex].getImage(initialFrame) != null)
-        {
+        if (initialFrame != finalFrame && anims[currIndex].getImage() != null && anims[currIndex].getImage(initialFrame) != null) {
             width = anims[currIndex].getImage().getWidth(null);
             height = anims[currIndex].getImage().getHeight(null);
 
@@ -80,11 +70,9 @@ public class Sprite
         }
     }
 
-    public void paint(Graphics2D g2)
-    {
+    public void paint(Graphics2D g2) {
       Image image = anims[currIndex].getImage();
-      if (image != null)
-      {
+      if (image != null) {
         if (direction == Direction.RIGHT)
           g2.drawImage(image, (int)x, (int)y, null);
             else
@@ -93,94 +81,76 @@ public class Sprite
       }
     }
 
-    public void setPosition(float x, float y)
-    {
+    public void setPosition(float x, float y) {
       this.x = x;
       this.y = y;
     }
 
-    public void setPosition(Point2D location)
-    {
-      if (location != null)
-      {
+    public void setPosition(Point2D location) {
+      if (location != null) {
         this.x = (float)location.getX();
         this.y = (float)location.getY();
       }
     }
 
-    public Point2D getPosition()
-    {
+    public Point2D getPosition() {
       return new Point2D.Float(x, y);
     }
 
-    public void setX(float x)
-    {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public float getX()
-    {
+    public float getX() {
         return x;
     }
 
-    public void setY(float y)
-    {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public float getY()
-    {
+    public float getY() {
         return y;
     }
 
-    public int getWidth()
-    {
+    public int getWidth() {
       return anims[currIndex].getImage().getWidth(null);
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
       return anims[currIndex].getImage().getHeight(null);
     }
 
-    public Rectangle2D getBounds()
-    {
+    public Rectangle2D getBounds() {
       return new Rectangle2D.Float(x, y, width, height);
     }
 
-    public void setVelocityX(float vx)
-    {
+    public void setVelocityX(float vx) {
         this.vx = vx;
     }
 
-    public float getVelocityX()
-    {
+    public float getVelocityX() {
         return vx;
     }
 
-    public void setVelocityY(float vy)
-    {
+    public void setVelocityY(float vy) {
         this.vy = vy;
     }
 
-    public float getVelocityY()
-    {
+    public float getVelocityY() {
         return vy;
     }
 
-    public void setDirection(Direction direction)
-    {
+    public void setDirection(Direction direction) {
       if (direction == Direction.RIGHT || direction == Direction.LEFT)
         this.direction = direction;
     }
 
-    public Direction getDirection()
-    {
+    public Direction getDirection() {
       return direction;
     }
 
-    public Image getImage()
-    {
+    public Image getImage() {
         return anims[currIndex].getImage();
     }
 }

@@ -14,12 +14,10 @@ import javax.swing.JPanel;
 
 import application.Utility;
 
-public class AboutDialog extends JDialog
-{
+public class AboutDialog extends JDialog {
   private static final long serialVersionUID = 1L;
 
-  public AboutDialog(JFrame parent)
-  {
+  public AboutDialog(JFrame parent) {
     super(parent, "About Mega Man 2", false);
 
     AboutPanel panel = new AboutPanel();
@@ -28,15 +26,13 @@ public class AboutDialog extends JDialog
     pack();
   }
 
-  private class AboutPanel extends JPanel
-  {
+  private class AboutPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private final Dimension dim;
     private Image bg;
     private String[] text;
 
-    public AboutPanel()
-    {
+    public AboutPanel() {
       bg = Utility.loadImage("res/images/overworld/about_background.png");
 
       dim = new Dimension(bg.getWidth(null) + 100, bg.getHeight(null) + 275);
@@ -60,8 +56,7 @@ public class AboutDialog extends JDialog
     }
 
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D)g;
       g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

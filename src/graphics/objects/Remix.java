@@ -6,28 +6,24 @@ import java.awt.geom.AffineTransform;
 
 import application.Utility;
 
-public class Remix
-{
+public class Remix {
   private Image img;
   private int x, y;
   private float cycle;
   private long time;
 
-  public Remix(int x, int y)
-  {
+  public Remix(int x, int y) {
     img = Utility.loadImage("res/images/overworld/remix.png");
     this.x = x;
     this.y = y;
   }
 
-  public void update(long elapsedTime)
-  {
+  public void update(long elapsedTime) {
     time += elapsedTime;
     cycle = 0.1f*(float)Math.sin(0.00495*time)+0.9f;
   }
 
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     AffineTransform at = new AffineTransform();
     at.translate(x, y);
     at.scale(cycle, cycle);

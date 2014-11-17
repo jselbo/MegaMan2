@@ -17,8 +17,7 @@ import audio.MidiPlayer;
 
 import javax.swing.JPanel;
 
-public abstract class GamePanel extends JPanel
-{
+public abstract class GamePanel extends JPanel {
   private static final long serialVersionUID = 1L;
 
   protected GameState state;
@@ -33,8 +32,7 @@ public abstract class GamePanel extends JPanel
 
   private boolean done;
 
-  public GamePanel(GameState state)
-  {
+  public GamePanel(GameState state) {
     done = false;
 
     this.state = state;
@@ -63,18 +61,15 @@ public abstract class GamePanel extends JPanel
     setFocusable(true);
   }
 
-  protected void setDone(boolean done)
-  {
+  protected void setDone(boolean done) {
     this.done = done;
   }
 
-  public boolean isDone()
-  {
+  public boolean isDone() {
     return done;
   }
 
-  public void start()
-  {
+  public void start() {
     done = false;
   }
 

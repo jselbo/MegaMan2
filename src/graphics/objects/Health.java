@@ -4,10 +4,8 @@ import graphics.Animation;
 import graphics.Sprite;
 import application.Utility;
 
-public class Health extends Sprite
-{
-  public Health(float x, float y)
-  {
+public class Health extends Sprite {
+  public Health(float x, float y) {
     super(loadAnimations());
 
     this.x = x;
@@ -15,8 +13,7 @@ public class Health extends Sprite
     vy = -0.5f;
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[1];
 
     anims[0] = new Animation(true);

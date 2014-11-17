@@ -5,8 +5,7 @@ import graphics.Direction;
 import application.GameState;
 import application.Utility;
 
-public class Spring extends Enemy
-{
+public class Spring extends Enemy {
   public static final int STATE_IDLE = 1;
   public static final int STATE_BOUNCING = 2;
 
@@ -15,8 +14,7 @@ public class Spring extends Enemy
   private long goTime;
   private float velocity;
 
-  public Spring(int y, Direction direction, int type, int difficulty, long goTime)
-  {
+  public Spring(int y, Direction direction, int type, int difficulty, long goTime) {
     super(loadAnimations(type));
 
     setState(STATE_IDLE);
@@ -29,15 +27,12 @@ public class Spring extends Enemy
     this.direction = direction;
     this.type = type;
 
-    if (type == 0)
-    {
+    if (type == 0) {
       if (difficulty == GameState.DIFFICULT)
         velocity = 0.6f;
       else
         velocity = 0.3f;
-    }
-    else
-    {
+    } else {
       if (difficulty == GameState.DIFFICULT)
         velocity = 0.5f;
       else
@@ -47,13 +42,11 @@ public class Spring extends Enemy
     this.goTime = goTime;
   }
 
-  public int getType()
-  {
+  public int getType() {
     return type;
   }
 
-  private static Animation[] loadAnimations(int type)
-  {
+  private static Animation[] loadAnimations(int type) {
     Animation[] anims = new Animation[3];
 
     String base = "res/images/enemies/";
@@ -83,15 +76,13 @@ public class Spring extends Enemy
   }
 
   @Override
-  public void update(long elapsedTime)
-  {
+  public void update(long elapsedTime) {
     super.update(elapsedTime);
 
     if (getState() != STATE_IDLE)
       return;
 
-    if (time >= goTime)
-    {
+    if (time >= goTime) {
       setState(STATE_BOUNCING);
       vx = direction == Direction.RIGHT ? velocity : -velocity;
     }
@@ -100,8 +91,7 @@ public class Spring extends Enemy
   }
 
   @Override
-  public String toString()
-  {
+  public String toString() {
     return "Spring";
   }
 }

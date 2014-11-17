@@ -10,8 +10,7 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class Megaman extends Sprite
-{
+public class Megaman extends Sprite {
   private final static int NUM_STATES = 6;
   public final static int STATE_IDLE = 0;
   public final static int STATE_STEP = 1;
@@ -23,8 +22,7 @@ public class Megaman extends Sprite
   private Image healthImg;
   private int health;
 
-  public Megaman()
-  {
+  public Megaman() {
     super(loadAnimations());
 
     reset();
@@ -32,8 +30,7 @@ public class Megaman extends Sprite
     healthImg = Utility.loadImage("res/images/megaman/health.png");
   }
 
-  public static Animation[] loadAnimations()
-  {
+  public static Animation[] loadAnimations() {
     Animation[] anims = new Animation[NUM_STATES];
 
     String base = "res/images/megaman/";
@@ -64,8 +61,7 @@ public class Megaman extends Sprite
   }
 
   @Override
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     super.paint(g2);
 
     g2.setColor(Color.darkGray);
@@ -74,8 +70,7 @@ public class Megaman extends Sprite
       g2.drawImage(healthImg, 12 + 18*i, 7, null);
   }
 
-  public void reset()
-  {
+  public void reset() {
     setState(STATE_IDLE);
     setDirection(Direction.RIGHT);
 
@@ -85,13 +80,11 @@ public class Megaman extends Sprite
     health = 10;
   }
 
-  public int getHealth()
-  {
+  public int getHealth() {
     return health;
   }
 
-  public void setHealth(int health)
-  {
+  public void setHealth(int health) {
     this.health = health;
   }
 }

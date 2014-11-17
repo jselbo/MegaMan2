@@ -5,10 +5,8 @@ import graphics.Direction;
 import graphics.Sprite;
 import application.Utility;
 
-public class Bullet extends Sprite
-{
-  public Bullet(float x, float y, float vx, float vy, Direction direction)
-  {
+public class Bullet extends Sprite {
+  public Bullet(float x, float y, float vx, float vy, Direction direction) {
     super(loadAnimations());
     this.x = x;
     this.y = y;
@@ -17,8 +15,7 @@ public class Bullet extends Sprite
     this.direction = direction;
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[1];
 
     anims[0] = new Animation();

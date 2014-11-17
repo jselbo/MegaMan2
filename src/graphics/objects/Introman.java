@@ -7,8 +7,7 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class Introman extends Sprite
-{
+public class Introman extends Sprite {
   public final static int STATE_IDLE = 0;
   public final static int STATE_TELEPORTING = 1;
 
@@ -17,23 +16,20 @@ public class Introman extends Sprite
   private boolean launched; // set to true when his body coils (ergo, cue sound)
   private boolean teleported; // set to true when position is above screen
 
-  public Introman()
-  {
+  public Introman() {
     super(loadAnimations());
 
     reset();
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anim = new Animation[2];
 
     String base = "res/images/megaman/";
 
     anim[STATE_IDLE] = new Animation();
     final int IDLE_IMGS = 2;
-    for (int i = 0; i < IDLE_IMGS; i++)
-    {
+    for (int i = 0; i < IDLE_IMGS; i++) {
       Image img = Utility.loadImage(base + "hair" + (i+1) + ".png");
       anim[STATE_IDLE].addFrame(img, 83);
     }
@@ -59,8 +55,7 @@ public class Introman extends Sprite
     return anim;
   }
 
-  public void reset()
-  {
+  public void reset() {
     setState(STATE_IDLE);
     setVelocityY(0);
 
@@ -72,14 +67,11 @@ public class Introman extends Sprite
   }
 
   @Override
-  public void update(long elapsedTime)
-  {
+  public void update(long elapsedTime) {
     super.update(elapsedTime);
 
-    if (currIndex == STATE_TELEPORTING)
-    {
-      if (anims[currIndex].isDone())
-      {
+    if (currIndex == STATE_TELEPORTING) {
+      if (anims[currIndex].isDone()) {
         setVelocityY(VY);
 
         if (y + height * 2 < 0)
@@ -91,13 +83,11 @@ public class Introman extends Sprite
     }
   }
 
-  public boolean teleported()
-  {
+  public boolean teleported() {
     return teleported;
   }
 
-  public boolean launched()
-  {
+  public boolean launched() {
     return launched;
   }
 }

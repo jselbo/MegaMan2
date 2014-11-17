@@ -9,8 +9,7 @@ import javax.swing.JFrame;
 import audio.MidiPlayer;
 import audio.SoundManager;
 
-public class GameState
-{
+public class GameState {
   public static final int NUM_BOSSES = 9;
   public static final int BUBBLEMAN = 0, AIRMAN = 1, QUICKMAN = 2, HEATMAN = 3,
       DR_WILY = 4, WOODMAN = 5, METALMAN = 6, FLASHMAN = 7, CRASHMAN = 8;
@@ -29,8 +28,7 @@ public class GameState
   private int energyTanks;
 
   public GameState(JFrame parent, Dimension screenDim, Dimension dim, InputListener inputListener,
-            SoundManager soundManager, MidiPlayer midiPlayer)
-  {
+            SoundManager soundManager, MidiPlayer midiPlayer) {
     this.screenDim = screenDim;
     this.dim = dim;
 
@@ -43,63 +41,51 @@ public class GameState
     energyTanks = 0;
   }
 
-  public JFrame getParent()
-  {
+  public JFrame getParent() {
     return parent;
   }
 
-  public Dimension getScreenDimension()
-  {
+  public Dimension getScreenDimension() {
     return screenDim;
   }
 
-  public Dimension getDimension()
-  {
+  public Dimension getDimension() {
     return dim;
   }
 
-  public InputListener getInputListener()
-  {
+  public InputListener getInputListener() {
     return inputListener;
   }
 
-  public SoundManager getSoundManager()
-  {
+  public SoundManager getSoundManager() {
     return soundManager;
   }
 
-  public MidiPlayer getMidiPlayer()
-  {
+  public MidiPlayer getMidiPlayer() {
     return midiPlayer;
   }
 
-  public void setDifficulty(int difficulty)
-  {
+  public void setDifficulty(int difficulty) {
     this.difficulty = difficulty;
   }
 
-  public int getDifficulty()
-  {
+  public int getDifficulty() {
     return difficulty;
   }
 
-  public void setBeaten(int boss, boolean beaten)
-  {
+  public void setBeaten(int boss, boolean beaten) {
     bosses[boss] = beaten;
   }
 
-  public boolean isBeaten(int boss)
-  {
+  public boolean isBeaten(int boss) {
     return bosses[boss];
   }
 
-  public void setEnergyTanks(int energyTanks)
-  {
+  public void setEnergyTanks(int energyTanks) {
     this.energyTanks = energyTanks;
   }
 
-  public int energyTanks()
-  {
+  public int energyTanks() {
     return energyTanks;
   }
 }

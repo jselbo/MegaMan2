@@ -7,12 +7,10 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class Block extends Sprite
-{
+public class Block extends Sprite {
   private Image img;
 
-  public Block(int x, int y, Image img)
-  {
+  public Block(int x, int y, Image img) {
     this.x = x;
     this.y = y;
     this.width = Utility.BLOCK_SIZE;
@@ -22,8 +20,7 @@ public class Block extends Sprite
   }
 
   @Override
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     g2.drawImage(img, (int)x, (int)y, null);
   }
 }

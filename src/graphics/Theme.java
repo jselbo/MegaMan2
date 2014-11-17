@@ -1,6 +1,5 @@
 package graphics;
 
-public enum Theme
-{
+public enum Theme {
 
 }

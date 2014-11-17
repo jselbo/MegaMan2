@@ -9,14 +9,12 @@ import java.awt.Image;
 
 import application.Utility;
 
-public class OrbSelector extends Sprite
-{
+public class OrbSelector extends Sprite {
   private int maxRow, maxCol;
   private int row, col;
   private boolean enabled;
 
-  public OrbSelector(int maxRows, int maxCols)
-  {
+  public OrbSelector(int maxRows, int maxCols) {
     super(loadAnimations());
 
     maxRow = maxRows - 1;
@@ -29,14 +27,12 @@ public class OrbSelector extends Sprite
   }
 
   @Override
-  public void paint(Graphics2D g2)
-  {
+  public void paint(Graphics2D g2) {
     if (enabled)
       super.paint(g2);
   }
 
-  private static Animation[] loadAnimations()
-  {
+  private static Animation[] loadAnimations() {
     Animation[] anims = new Animation[1];
 
     Animation anim = new Animation();
@@ -55,10 +51,8 @@ public class OrbSelector extends Sprite
     return anims;
   }
 
-  public void move(Direction direction)
-  {
-    switch (direction)
-    {
+  public void move(Direction direction) {
+    switch (direction) {
     case LEFT:
       col--;
       if (col < 0)
@@ -82,18 +76,15 @@ public class OrbSelector extends Sprite
     }
   }
 
-  public void setEnabled(boolean enabled)
-  {
+  public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
 
-  public int getRow()
-  {
+  public int getRow() {
     return row;
   }
 
-  public int getColumn()
-  {
+  public int getColumn() {
     return col;
   }
 }

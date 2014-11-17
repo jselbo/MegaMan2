@@ -23,19 +23,16 @@ import javax.swing.ImageIcon;
 /**
  * A general utility class with several useful methods and important global constants.
  */
-public class Utility
-{
+public class Utility {
   public static final int WINDOW_BORDER = 10; // Total window border thickness on Windows 7 (thin border variant)
   public static final int SPRITE_SIZE = 16; // width and height of each game block, or sprite
   public static final int BLOCK_SIZE = 32;
 
-  public static Image loadImage(String filePath)
-  {
+  public static Image loadImage(String filePath) {
     return (new ImageIcon(filePath)).getImage();
   }
 
-  public static Sequence loadMidi(String filePath)
-  {
+  public static Sequence loadMidi(String filePath) {
     File midiFile = new File(filePath);
     if (!midiFile.exists())
       return null;
@@ -52,12 +49,10 @@ public class Utility
     return midi;
   }
 
-  public static Clip loadClip(String filePath)
-  {
+  public static Clip loadClip(String filePath) {
     Clip clip = null;
 
-    try
-    {
+    try {
       File clipFile = new File(filePath);
       if (!clipFile.exists())
         return null;
@@ -77,29 +72,25 @@ public class Utility
     return clip;
   }
 
-  public static int rightJustify(String string, Font font, int x)
-  {
+  public static int rightJustify(String string, Font font, int x) {
     FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
     Rectangle2D bounds = font.getStringBounds(string, frc);
     return (int)(x - bounds.getWidth());
   }
 
-  public static int xCenterText(String string, Font font, Dimension dim)
-    {
+  public static int xCenterText(String string, Font font, Dimension dim) {
         FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
         Rectangle2D bounds = font.getStringBounds(string, frc);
         return (int)(((dim.width + WINDOW_BORDER) / 2) - (bounds.getWidth() / 2));
     }
 
-  public static int yCenterText(String string, Font font, Dimension dim)
-    {
+  public static int yCenterText(String string, Font font, Dimension dim) {
         FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
         Rectangle2D bounds = font.getStringBounds(string, frc);
         return (int)(((dim.height + WINDOW_BORDER) / 2) - (bounds.getHeight() / 2));
     }
 
-  public static Point centerText(String string, Font font, Dimension dim)
-  {
+  public static Point centerText(String string, Font font, Dimension dim) {
     FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
     Rectangle2D bounds = font.getStringBounds(string, frc);
         int x = (int)(((dim.width + WINDOW_BORDER) / 2) - (bounds.getWidth() / 2));
@@ -107,18 +98,15 @@ public class Utility
         return new Point(x, y);
   }
 
-  public static int xCenterImage(Image image, Dimension dim)
-  {
+  public static int xCenterImage(Image image, Dimension dim) {
     return ((dim.width + WINDOW_BORDER) / 2) - (image.getWidth(null) / 2);
   }
 
-  public static int yCenterImage(Image image, Dimension dim)
-  {
+  public static int yCenterImage(Image image, Dimension dim) {
     return ((dim.height + WINDOW_BORDER) / 2) - (image.getHeight(null) / 2);
   }
 
-  public static Point centerImage(Image image, Dimension dim)
-  {
+  public static Point centerImage(Image image, Dimension dim) {
     return new Point(xCenterImage(image, dim), yCenterImage(image, dim));
   }
 }
