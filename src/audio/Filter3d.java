@@ -36,7 +36,7 @@ public class Filter3d extends SoundFilter {
         this.maxDistance = maxDistance;
         this.lastVolume = 0.0f;
     }
-    
+
     /**
         Filters the sound so that it gets more quiet with
         distance.
@@ -71,7 +71,7 @@ public class Filter3d extends SoundFilter {
                     shift / NUM_SHIFTING_SAMPLES;
                 shift++;
             }
-            
+
             // change the volume of the sample
             short oldSample = getSample(samples, i);
             short newSample = (short)(oldSample * volume);

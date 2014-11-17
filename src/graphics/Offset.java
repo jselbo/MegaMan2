@@ -7,5 +7,5 @@ package graphics;
  */
 public enum Offset
 {
-	DEFAULT;
+  DEFAULT;
 }

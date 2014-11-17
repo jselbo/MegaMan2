@@ -10,13 +10,13 @@ public class MainFrame extends JFrame {
     private boolean initialized = false;
     private Actions actions = new Actions();
     private JTextField filename = new JTextField(), dir = new JTextField();
-    
+
     public void initialize() {
         initializeGui();
         initializeEvents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
-    
+
     private void initializeGui() {
         if (initialized)
             return;
@@ -105,17 +105,17 @@ public class MainFrame extends JFrame {
         //c.fill = GridBagConstraints.HORIZONTAL;
         pane.add(tools, c);
     }
-    
+
     private void initializeEvents() {
         // TODO: Add action listeners, etc
     }
-    
+
     public class Actions implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             command = command == null ? "" : command;
             // TODO: add if...if else... for action commands
-        
+
         }
     }
 
@@ -124,7 +124,7 @@ public class MainFrame extends JFrame {
         //super.dispose();
         System.exit(0);
     }
-    
+
     public void setVisible(boolean b) {
         initialize();
         super.setVisible(b);

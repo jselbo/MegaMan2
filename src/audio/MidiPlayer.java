@@ -7,14 +7,14 @@ public class MidiPlayer implements MetaEventListener {
 
     // Midi meta event
     public static final int END_OF_TRACK_MESSAGE = 47;
-    
+
     private Sequencer sequencer;
     private boolean loop;
     private boolean paused;
     private boolean muted;
     private boolean done;
     private int volume;
-    
+
     /**
         Creates a new MidiPlayer object.
     */
@@ -68,37 +68,37 @@ public class MidiPlayer implements MetaEventListener {
             return null;
         }
     }
-    
+
     public void play(Sequence sequence, boolean loop)
     {
-    	play(sequence, loop, 0);
+      play(sequence, loop, 0);
     }
-    
+
     /**
         Plays a sequence, optionally looping. This method returns
         immediately. The sequence is not played if it is invalid.
     */
     public void play(Sequence sequence, boolean loop, long microsecondPosition) {
-    	done = false;
+      done = false;
         if (sequencer != null && sequence != null && sequencer.isOpen()) {
             try {
                 sequencer.setSequence(sequence);
                 sequencer.setMicrosecondPosition(microsecondPosition);
                 sequencer.start();
-                
+
                 new Thread()
                 {
-                	@Override
-                	public void run()
-                	{
-                		try {
-							Thread.sleep(5);
-						} catch (InterruptedException e) {}
-                		
-                		forceVolumeSet();
-                	}
+                  @Override
+                  public void run()
+                  {
+                    try {
+              Thread.sleep(5);
+            } catch (InterruptedException e) {}
+
+                    forceVolumeSet();
+                  }
                 }.run();
-                
+
                 this.loop = loop;
             }
             catch (InvalidMidiDataException ex) {
@@ -117,14 +117,14 @@ public class MidiPlayer implements MetaEventListener {
     public void meta(MetaMessage event) {
         if (event.getType() == END_OF_TRACK_MESSAGE) {
             if (sequencer != null && sequencer.isOpen() && loop) {
-            	sequencer.setMicrosecondPosition(0);
+              sequencer.setMicrosecondPosition(0);
                 sequencer.start();
             } else {
-            	done = true;
+              done = true;
             }
         }
     }
-    
+
     /**
         Stops the sequencer and resets its position to 0.
     */
@@ -134,7 +134,7 @@ public class MidiPlayer implements MetaEventListener {
              sequencer.setMicrosecondPosition(0);
          }
     }
-    
+
     /**
         Closes the sequencer.
     */
@@ -143,7 +143,7 @@ public class MidiPlayer implements MetaEventListener {
              sequencer.close();
          }
     }
-    
+
     /**
         Sets the paused state. Music may not immediately pause.
     */
@@ -158,67 +158,67 @@ public class MidiPlayer implements MetaEventListener {
             }
         }
     }
-    
+
     /**
         Returns the paused state.
     */
     public boolean isPaused() {
         return paused;
     }
-    
+
     public boolean done() {
-    	return done;
+      return done;
     }
-    
+
     public void setPosition(long position)
     {
-    	if (sequencer != null && sequencer.isOpen())
-    		sequencer.setMicrosecondPosition(position);
+      if (sequencer != null && sequencer.isOpen())
+        sequencer.setMicrosecondPosition(position);
     }
-    
+
     public void setMuted(boolean muted)
-	{
-		if (this.muted != muted)
-		{
-			this.muted = muted;
-			
-			if (sequencer != null && sequencer.isOpen() && sequencer.isRunning())
-				forceVolumeSet();
-		}
-	}
-	
-	public boolean isMuted()
-	{
-		return muted;
-	}
-    
+  {
+    if (this.muted != muted)
+    {
+      this.muted = muted;
+
+      if (sequencer != null && sequencer.isOpen() && sequencer.isRunning())
+        forceVolumeSet();
+    }
+  }
+
+  public boolean isMuted()
+  {
+    return muted;
+  }
+
     public void setVolume(int volume)
-	{
-		if (this.volume != volume)
-		{
-			this.volume = volume;
-			
-			if (sequencer != null && sequencer.isOpen() && sequencer.isRunning())
-				forceVolumeSet();
-		}
-	}
-    
+  {
+    if (this.volume != volume)
+    {
+      this.volume = volume;
+
+      if (sequencer != null && sequencer.isOpen() && sequencer.isRunning())
+        forceVolumeSet();
+    }
+  }
+
     private void forceVolumeSet()
-	{
-		try
-		{
-			int newVolume = muted ? 0 : volume;
-			
-			ShortMessage volumeMessage = new ShortMessage();
-			for (int i = 0; i < 16; i++)
-			{
-				volumeMessage.setMessage(ShortMessage.CONTROL_CHANGE, i, 7, newVolume);
-				MidiSystem.getReceiver().send(volumeMessage, -1);
-			}
-		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		}
-	}
+  {
+    try
+    {
+      int newVolume = muted ? 0 : volume;
+
+      ShortMessage volumeMessage = new ShortMessage();
+      for (int i = 0; i < 16; i++)
+      {
+        volumeMessage.setMessage(ShortMessage.CONTROL_CHANGE, i, 7, newVolume);
+        MidiSystem.getReceiver().send(volumeMessage, -1);
+      }
+    } catch (InvalidMidiDataException e) {
+      e.printStackTrace();
+    } catch (MidiUnavailableException e) {
+      e.printStackTrace();
+    }
+  }
 }

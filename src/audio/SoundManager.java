@@ -66,7 +66,7 @@ public class SoundManager extends ThreadPool {
         Mixer mixer = AudioSystem.getMixer(null);
         int maxLines =  mixer.getMaxLines(lineInfo);
         if (maxLines == AudioSystem.NOT_SPECIFIED)
-        	maxLines = 32;
+          maxLines = 32;
         return maxLines;
     }
 

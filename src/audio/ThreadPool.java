@@ -19,7 +19,7 @@ public class ThreadPool extends ThreadGroup {
     public ThreadPool(int numThreads) {
         super("ThreadPool-" + (threadPoolID++));
         setDaemon(true);
-        
+
         isAlive = true;
 
         taskQueue = new LinkedList<Runnable>();
@@ -47,7 +47,7 @@ public class ThreadPool extends ThreadGroup {
             notify();
         }
     }
-    
+
     protected synchronized Runnable getTask()
         throws InterruptedException
     {
