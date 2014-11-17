@@ -1,6 +1,6 @@
 if [ $# -eq 0 ]; then
-    echo "Usage: run.sh {application|editor}"
-    exit 1
+  echo "Usage: run.sh {application|editor}"
+  exit 1
 fi
 
 ./compile.sh
