@@ -3,3 +3,10 @@ bin/
 
 # Any stray .class files
 *.class
+
+# Windows detritus
+Thumbs.db
+
+# OS X detritus
+.DS_Store
+
