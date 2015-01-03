@@ -79,16 +79,16 @@ public class Utility {
   }
 
   public static int xCenterText(String string, Font font, Dimension dim) {
-        FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
-        Rectangle2D bounds = font.getStringBounds(string, frc);
-        return (int)(((dim.width + WINDOW_BORDER) / 2) - (bounds.getWidth() / 2));
-    }
+    FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
+    Rectangle2D bounds = font.getStringBounds(string, frc);
+    return (int)(((dim.width + WINDOW_BORDER) / 2) - (bounds.getWidth() / 2));
+  }
 
   public static int yCenterText(String string, Font font, Dimension dim) {
-        FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
-        Rectangle2D bounds = font.getStringBounds(string, frc);
-        return (int)(((dim.height + WINDOW_BORDER) / 2) - (bounds.getHeight() / 2));
-    }
+    FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);
+    Rectangle2D bounds = font.getStringBounds(string, frc);
+    return (int)(((dim.height + WINDOW_BORDER) / 2) - (bounds.getHeight() / 2));
+  }
 
   public static Point centerText(String string, Font font, Dimension dim) {
     FontRenderContext frc = new FontRenderContext(new AffineTransform(), false, false);

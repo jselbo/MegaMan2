@@ -184,8 +184,9 @@ public class GameManager implements Runnable {
       setPanel(START_PANEL);
     }
 
-    panels[currentPanel].repaint(); // repaint after trying to switch panels to prevent
-                    // NullPointerExceptions from the Graphics object (delayed painting)
+    // repaint after trying to switch panels to prevent
+    // NullPointerExceptions from the Graphics object (delayed painting)
+    panels[currentPanel].repaint();
   }
 
   private void setPanel(int destinationPanel) {
