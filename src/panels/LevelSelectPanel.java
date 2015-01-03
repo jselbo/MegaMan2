@@ -54,6 +54,8 @@ public class LevelSelectPanel extends GamePanel {
   private boolean flash; // only used when flashing, alternates
   private long flashTime;
 
+  private boolean finalBossUnlocked;
+
   public LevelSelectPanel(GameState state) {
     super(state);
     setBackground(Color.black);
@@ -68,24 +70,24 @@ public class LevelSelectPanel extends GamePanel {
     background = Utility.loadImage(imageBase + "select_background.png");
 
     icons = new BossIcon[3][3];
-    /*icons[0][0] = new BossIcon(Utility.loadImage(imageBase + "bubbleman.png"), "BUBBLE", "MAN", state.isBeaten(GameState.BUBBLEMAN));
-    icons[0][1] = new BossIcon(Utility.loadImage(imageBase + "airman.png"), "AIR", "MAN", state.isBeaten(GameState.AIRMAN));
-    icons[0][2] = new BossIcon(Utility.loadImage(imageBase + "quickman.png"), "QUICK", "MAN", state.isBeaten(GameState.QUICKMAN));
-    icons[1][0] = new BossIcon(Utility.loadImage(imageBase + "heatman.png"), "HEAT", "MAN", state.isBeaten(GameState.HEATMAN));
-    icons[1][1] = new BossIcon(Utility.loadImage(imageBase + "dr_wily.png"), "DR.", "WILY", state.isBeaten(GameState.DR_WILY));
-    icons[1][2] = new BossIcon(Utility.loadImage(imageBase + "woodman.png"), "WOOD", "MAN", state.isBeaten(GameState.WOODMAN));
-    icons[2][0] = new BossIcon(Utility.loadImage(imageBase + "metalman.png"), "METAL", "MAN", state.isBeaten(GameState.METALMAN));
-    icons[2][1] = new BossIcon(Utility.loadImage(imageBase + "flashman.png"), "FLASH", "MAN", state.isBeaten(GameState.FLASHMAN));
-    icons[2][2] = new BossIcon(Utility.loadImage(imageBase + "crashman.png"), "CRASH", "MAN", state.isBeaten(GameState.CRASHMAN));*/
-    icons[0][0] = new BossIcon(Utility.loadImage(imageBase + "bubbleman.png"), "", "", state.isBeaten(GameState.BUBBLEMAN));
-    icons[0][1] = new BossIcon(Utility.loadImage(imageBase + "airman.png"), "", "", state.isBeaten(GameState.AIRMAN));
-    icons[0][2] = new BossIcon(Utility.loadImage(imageBase + "quickman.png"), "", "", state.isBeaten(GameState.QUICKMAN));
-    icons[1][0] = new BossIcon(Utility.loadImage(imageBase + "heatman.png"), "", "", state.isBeaten(GameState.HEATMAN));
-    icons[1][1] = new BossIcon(Utility.loadImage(imageBase + "dr_wily.png"), "BEGIN", "FIGHT", state.isBeaten(GameState.DR_WILY));
-    icons[1][2] = new BossIcon(Utility.loadImage(imageBase + "woodman.png"), "", "", state.isBeaten(GameState.WOODMAN));
-    icons[2][0] = new BossIcon(Utility.loadImage(imageBase + "metalman.png"), "", "", state.isBeaten(GameState.METALMAN));
-    icons[2][1] = new BossIcon(Utility.loadImage(imageBase + "flashman.png"), "", "", state.isBeaten(GameState.FLASHMAN));
-    icons[2][2] = new BossIcon(Utility.loadImage(imageBase + "crashman.png"), "", "", state.isBeaten(GameState.CRASHMAN));
+    icons[0][0] = new BossIcon(Utility.loadImage(imageBase + "bubbleman.png"), "BUBBLE", "MAN",
+        state.isBeaten(GameState.BUBBLEMAN));
+    icons[0][1] = new BossIcon(Utility.loadImage(imageBase + "airman.png"), "AIR", "MAN",
+        state.isBeaten(GameState.AIRMAN));
+    icons[0][2] = new BossIcon(Utility.loadImage(imageBase + "quickman.png"), "QUICK", "MAN",
+        state.isBeaten(GameState.QUICKMAN));
+    icons[1][0] = new BossIcon(Utility.loadImage(imageBase + "heatman.png"), "HEAT", "MAN",
+        state.isBeaten(GameState.HEATMAN));
+    icons[1][1] = new BossIcon(Utility.loadImage(imageBase + "dr_wily.png"), "DR.", "WILY",
+        state.isBeaten(GameState.DR_WILY));
+    icons[1][2] = new BossIcon(Utility.loadImage(imageBase + "woodman.png"), "WOOD", "MAN",
+        state.isBeaten(GameState.WOODMAN));
+    icons[2][0] = new BossIcon(Utility.loadImage(imageBase + "metalman.png"), "METAL", "MAN",
+        state.isBeaten(GameState.METALMAN));
+    icons[2][1] = new BossIcon(Utility.loadImage(imageBase + "flashman.png"), "FLASH", "MAN",
+        state.isBeaten(GameState.FLASHMAN));
+    icons[2][2] = new BossIcon(Utility.loadImage(imageBase + "crashman.png"), "CRASH", "MAN",
+        state.isBeaten(GameState.CRASHMAN));
 
     banner = Utility.loadImage(imageBase + "banner.png");
 
@@ -102,6 +104,15 @@ public class LevelSelectPanel extends GamePanel {
     anim.addFrame(Utility.loadImage(imageBase + "box_selector.png"), 133);
     anim.addFrame(null, 133);
     boxSelector = new Sprite(new Animation[] {anim});
+
+    finalBossUnlocked = (state.isBeaten(GameState.BUBBLEMAN)
+                         && state.isBeaten(GameState.AIRMAN)
+                         && state.isBeaten(GameState.QUICKMAN)
+                         && state.isBeaten(GameState.HEATMAN)
+                         && state.isBeaten(GameState.WOODMAN)
+                         && state.isBeaten(GameState.METALMAN)
+                         && state.isBeaten(GameState.FLASHMAN)
+                         && state.isBeaten(GameState.CRASHMAN));
   }
 
   @Override
@@ -273,7 +284,13 @@ public class LevelSelectPanel extends GamePanel {
 
   private void processInput() {
     if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER)) {
-      if (!icons[row][col].beaten && row == 1 && col == 1) {
+      boolean loadBoss;
+      if (row == 1 && col == 1) {
+        loadBoss = finalBossUnlocked;
+      } else {
+        loadBoss = !this.state.isBeaten(3 * row + col);
+      }
+      if (loadBoss) {
         flashing = true;
         midiPlayer.stop();
 
@@ -325,7 +342,7 @@ public class LevelSelectPanel extends GamePanel {
       if (col == 0)
         return new Heatman();
       else if (col == 1)
-        return new Airman();
+        return null; // TODO implement Dr. Wily boss
       else
         return new Woodman();
     } else {
