@@ -1,8 +1,0 @@
-// Format
-// <sceneID width height scrollable(0 or 1) contiguousDirection contiguousSceneID>
-// #objectID
-// drawing and properties
-
-<start 20 20 0 - ->
-#tile1
-s 

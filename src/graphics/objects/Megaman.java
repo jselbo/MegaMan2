@@ -63,11 +63,6 @@ public class Megaman extends Sprite {
   @Override
   public void paint(Graphics2D g2) {
     super.paint(g2);
-
-    g2.setColor(Color.darkGray);
-    g2.fillRoundRect(5, 3, 190, 22, 10, 10);
-    for (int i = 0; i < health; i++)
-      g2.drawImage(healthImg, 12 + 18*i, 7, null);
   }
 
   public void reset() {

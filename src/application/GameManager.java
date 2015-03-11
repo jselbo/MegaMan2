@@ -29,7 +29,7 @@ import audio.MidiPlayer;
 import audio.SoundManager;
 
 public class GameManager implements Runnable {
-  private static final int SLEEP_TIME = 10; // (int)(1000f / 30f); // (1 second) divided by (frames per second)
+  private static final int SLEEP_TIME = (int)(1000f / 30f); // (1 second) divided by (frames per second)
   private static final int START_PANEL = 0;
 
   // uncompressed, 44100Hz, 16-bit, stereo, signed, little-endian
@@ -82,7 +82,7 @@ public class GameManager implements Runnable {
     loadProperties();
 
     panels = new GamePanel[4];
-    currentPanel = START_PANEL;
+    currentPanel = 3;
     setPanel(currentPanel);
   }
 

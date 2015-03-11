@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="15" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="woodmanTileset" tilewidth="32" tileheight="32" spacing="2" margin="4">
-  <image source="../images/tilesets/woodmanTileset.png" width="312" height="210"/>
+  <image source="../../images/tilesets/woodman/tileset.png" width="312" height="210"/>
  </tileset>
  <tileset firstgid="55" name="0full" tilewidth="32" tileheight="32">
-  <image source="../images/tilesets/woodman/0full.png" width="160" height="160"/>
+  <image source="../../images/tilesets/woodman/tileset.png" width="160" height="160"/>
  </tileset>
  <layer name="foreground" width="16" height="15">
   <data>
