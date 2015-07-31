@@ -1,8 +1,9 @@
-# Build directory
-bin/
-
-# Any stray .class files
 *.class
+*.jar
+
+# Gradle
+.gradle
+build/
 
 # Windows detritus
 Thumbs.db

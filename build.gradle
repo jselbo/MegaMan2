@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'application.Main'
+
+// Specify project layout
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'res'
+        }
+    }
+}
+
+// Specify dependencies
+repositories() {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.3.1'
+}
+

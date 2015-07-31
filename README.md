@@ -5,11 +5,11 @@ Faithful recreation of Mega Man 2 in Java (always a work in progress).
 
 Building and Running
 -----
-```
-./compile.sh && ./run.sh
-```
+Build using [Gradle](https://gradle.org/).
 
-On Windows, use Git Bash terminal or something similar.
+```
+gradle run
+```
 
 Development
 -----
@@ -43,3 +43,4 @@ Contributors
 -----
 * Joshua Selbo (@jselbo)
 * Hunter Martin (@hunterbmartin)
+
