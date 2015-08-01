@@ -38,6 +38,8 @@ public class GameManager implements Runnable {
   // uncompressed, 44100Hz, 16-bit, stereo, signed, little-endian
   private static final AudioFormat PLAYBACK_FORMAT = new AudioFormat(44100, 16, 2, true, false);
 
+  private static final GamePanel.Type STARTING_PANEL_TYPE = GamePanel.Type.LEVEL_PLAY_PANEL;
+
   // GUI elements
   private JFrame frame;
   private JMenuBar menuBar;
@@ -81,7 +83,7 @@ public class GameManager implements Runnable {
 
     loadProperties();
 
-    removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(GamePanel.Type.INTRO_PANEL));
+    removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(STARTING_PANEL_TYPE));
   }
 
   private void loadProperties() {
@@ -161,7 +163,7 @@ public class GameManager implements Runnable {
   private void updateGame(long elapsedTime) {
     if (resetFlag) {
       resetFlag = false;
-      removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(GamePanel.Type.INTRO_PANEL));
+      removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(STARTING_PANEL_TYPE));
       return;
     }
 
