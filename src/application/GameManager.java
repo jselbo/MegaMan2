@@ -26,7 +26,7 @@ import input.InputListener;
 
 import panels.GamePanel;
 import panels.IntroPanel;
-import panels.LevelPanel;
+import panels.LevelPlayPanel;
 import panels.LevelSelectPanel;
 import panels.PasswordPanel;
 
@@ -211,7 +211,7 @@ public class GameManager implements Runnable {
       case LEVEL_SELECT_PANEL:
         return new LevelSelectPanel(gameState);
       case LEVEL_PLAY_PANEL:
-        return new LevelPanel(gameState);
+        return new LevelPlayPanel(gameState);
     }
     throw new IllegalStateException("Invalid panel type");
   }

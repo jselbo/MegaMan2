@@ -14,10 +14,10 @@ import java.awt.Graphics2D;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 
-public class LevelPanel extends GamePanel {
+public class LevelPlayPanel extends GamePanel {
   private Megaman hero;
 
-  public LevelPanel(GameState state) {
+  public LevelPlayPanel(GameState state) {
     super(state);
 
     setBackground(Color.BLACK);
