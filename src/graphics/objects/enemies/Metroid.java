@@ -1,6 +1,7 @@
 package graphics.objects.enemies;
 
 import graphics.Animation;
+import application.GameDifficulty;
 import application.GameState;
 import application.Utility;
 
@@ -10,12 +11,12 @@ public class Metroid extends Enemy {
   private long time;
   private float w, a, xAxis;
 
-  public Metroid(float xAxis, float period, float amplitude, int difficulty, float vx) {
+  public Metroid(float xAxis, float period, float amplitude, GameDifficulty difficulty, float vx) {
     super(loadAnimations());
 
     setState(STATE_FLYING);
 
-    if (difficulty == GameState.DIFFICULT)
+    if (difficulty == GameDifficulty.DIFFICULT)
       this.vx = vx;
     else
       this.vx = vx/2;

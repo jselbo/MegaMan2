@@ -5,22 +5,29 @@ mainClassName = 'application.Main'
 
 // Specify project layout
 sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'res'
-        }
+  main {
+    java {
+      srcDir 'src'
     }
+    resources {
+      srcDir 'res'
+    }
+  }
 }
 
 // Specify dependencies
 repositories() {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.3.1'
+  compile 'com.google.code.gson:gson:2.3.1'
+  compile group: 'com.google.guava', name: 'guava', version: '18.0'
 }
 
+// Compile options
+gradle.projectsEvaluated {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:all" << "-Xlint:-serial"
+  }
+}

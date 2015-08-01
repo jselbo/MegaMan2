@@ -43,7 +43,7 @@ public class Airman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Airman";
+  public BossType getType() {
+    return BossType.AIRMAN;
   }
 }

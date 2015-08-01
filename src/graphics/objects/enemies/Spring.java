@@ -2,6 +2,7 @@ package graphics.objects.enemies;
 
 import graphics.Animation;
 import graphics.Direction;
+import application.GameDifficulty;
 import application.GameState;
 import application.Utility;
 
@@ -14,7 +15,7 @@ public class Spring extends Enemy {
   private long goTime;
   private float velocity;
 
-  public Spring(int y, Direction direction, int type, int difficulty, long goTime) {
+  public Spring(int y, Direction direction, int type, GameDifficulty difficulty, long goTime) {
     super(loadAnimations(type));
 
     setState(STATE_IDLE);
@@ -28,12 +29,12 @@ public class Spring extends Enemy {
     this.type = type;
 
     if (type == 0) {
-      if (difficulty == GameState.DIFFICULT)
+      if (difficulty == GameDifficulty.DIFFICULT)
         velocity = 0.6f;
       else
         velocity = 0.3f;
     } else {
-      if (difficulty == GameState.DIFFICULT)
+      if (difficulty == GameDifficulty.DIFFICULT)
         velocity = 0.5f;
       else
         velocity = 0.2f;

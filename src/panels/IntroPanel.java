@@ -6,6 +6,7 @@ import graphics.objects.Remix;
 import graphics.objects.Selector;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,15 +18,22 @@ import java.util.Arrays;
 
 import javax.sound.midi.Sequence;
 
+import application.GameDifficulty;
 import application.GameState;
+import application.GameTransitionEvent;
 import application.Utility;
+
 import audio.Sound;
 
+import input.InputListener;
+
 public class IntroPanel extends GamePanel {
-  private static final long serialVersionUID = 1L;
-  private static final long FADE_TIME = 600L; // total time (milliseconds) for a complete fade-in or fade-out
-  private static final long FADE_PAUSE = 4000L; // time (milliseconds) during which the text pauses between fades
-  private static final int FADE_INCREMENTS = 3; // 1 increment = no fade, more increments = higher quality
+  // total time (milliseconds) for a complete fade-in or fade-out
+  private static final long FADE_TIME = 600L;
+  // time (milliseconds) during which the text pauses between fades
+  private static final long FADE_PAUSE = 4000L;
+  // 1 increment = no fade, more increments = higher quality
+  private static final int FADE_INCREMENTS = 3;
 
   // Trigger variables
   private long totalTime; // total elapsed milliseconds, cumulative (used to check for triggers)
@@ -55,7 +63,6 @@ public class IntroPanel extends GamePanel {
   private Remix remix;
   private Selector selector; // arrow selector; selection 0=normal, 1=difficult
   private Introman introMan; // Mega Man on roof
-  private String[] difficulties;
   private String start;
   private Image city;
   private float cityY;
@@ -76,20 +83,21 @@ public class IntroPanel extends GamePanel {
   private boolean acceptKeyEvents;
   private boolean teleportCued;
 
-  private long roofTime; // total elapsed milliseconds spent on roof, cumulative (resets after repeat)
-  private boolean repeat; // should the intro repeat?
+  // total elapsed milliseconds spent on roof, cumulative (resets after repeat)
+  private long roofTime;
+  // should the intro repeat?
+  private boolean repeat;
 
-  public IntroPanel(GameState state) {
-    super(state);
-
+  public IntroPanel(GameState gameState) {
+    super(gameState);
     setBackground(Color.black);
 
     initializeTextData();
 
-    midi = midiPlayer.getSequence("res/audio/midis/intro.mid");
+    midi = gameState.getMidiPlayer().getSequence("res/audio/midis/intro.mid");
 
-    blip = soundManager.getSound("res/audio/sound_effects/blip1.wav");
-    teleport = soundManager.getSound("res/audio/sound_effects/teleport.wav");
+    blip = gameState.getSoundManager().getSound("res/audio/sound_effects/blip1.wav");
+    teleport = gameState.getSoundManager().getSound("res/audio/sound_effects/teleport.wav");
 
     triggers = new long[600]; // approximate number of triggers
     Arrays.fill(triggers, -1L); // fill with default value of -1
@@ -117,9 +125,12 @@ public class IntroPanel extends GamePanel {
 
   @Override
   public void start() {
-    super.start();
+    reset();
+  }
 
-    midiPlayer.stop();
+  private void reset() {
+    GameState gameState = getGameState();
+    gameState.getMidiPlayer().stop();
 
     totalTime = 0;
     triggerCount = 0;
@@ -135,7 +146,8 @@ public class IntroPanel extends GamePanel {
     cityY = -82.0f;
     buildingY = -building.getHeight(null);  // start at this instead of 0 so we don't trip the showNotchless boolean on key 2
 
-    boxY = dim.height - 120;
+    Dimension gameDimension = gameState.getGameDimension();
+    boxY = gameDimension.height - 120;
 
     showBackground = false;
     riseDone = false;
@@ -194,25 +206,14 @@ public class IntroPanel extends GamePanel {
     textData[5] = new String[1];
     textData[5][0] = "GOOD LUCK MEGAMAN.";
 
+    Dimension gameDimension = getGameState().getGameDimension();
     textPoints = new Point[textData.length][];
     for (int i = 0; i < textData.length; i++) {
       textPoints[i] = new Point[textData[i].length];
       for (int j = 0; j < textData[i].length; j++) {
-        int x = Utility.xCenterText(textData[i][j], gameFont, dim);
-        int y = (i == 0) ? (2 * dim.height / 5) + (30 * j) : dim.height - 70 + (30 * j);
+        int x = Utility.xCenterText(textData[i][j], getGameFont(), gameDimension);
+        int y = (i == 0) ? (2 * gameDimension.height / 5) + (30 * j) : gameDimension.height - 70 + (30 * j);
         textPoints[i][j] = new Point(x, y);
-      }
-    }
-
-    difficulties = new String[GameState.NUM_DIFFICULTIES];
-    for (int i = 0; i < difficulties.length; i++) {
-      switch (i) {
-      case 0:
-        difficulties[i] = "NORMAL";
-        break;
-      case 1:
-        difficulties[i] = "DIFFICULT";
-        break;
       }
     }
 
@@ -261,40 +262,42 @@ public class IntroPanel extends GamePanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D)g;
+    Dimension gameDimension = getGameState().getGameDimension();
+    Dimension screenDimension = getGameState().getScreenDimension();
 
-    double tx = screenDim.width/2 - dim.width/2, ty = screenDim.height/2 - dim.height/2 - 80;
+    double tx = screenDimension.width/2 - gameDimension.width/2, ty = screenDimension.height/2 - gameDimension.height/2 - 80;
     g2.setColor(Color.white);
-    g2.fillRoundRect((int)tx - 10, (int)ty - 10, dim.width + 20, dim.height + 20, 8, 8);
+    g2.fillRoundRect((int)tx - 10, (int)ty - 10, gameDimension.width + 20, gameDimension.height + 20, 8, 8);
     g2.setColor(Color.black);
-    g2.fillRect((int)tx, (int)ty, dim.width, dim.height);
+    g2.fillRect((int)tx, (int)ty, gameDimension.width, gameDimension.height);
 
     g2.translate(tx, ty);
-    g2.clipRect(0, 0, dim.width, dim.height);
+    g2.clipRect(0, 0, gameDimension.width, gameDimension.height);
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    g2.setFont(gameFont);
+    g2.setFont(getGameFont());
 
     if (riseDone) {
-      int xB = (dim.width - building.getWidth(null)), yB = (int) buildingY;
+      int xB = (gameDimension.width - building.getWidth(null)), yB = (int) buildingY;
       for (int i = 0; i < 2; i++) {
         g2.drawImage(building, xB, yB, null);
         yB += building.getHeight(null);
       }
 
-      int xR = dim.width - roof.getWidth(null), yR = (int) buildingY
+      int xR = gameDimension.width - roof.getWidth(null), yR = (int) buildingY
           - roof.getHeight(null);
       g2.drawImage(roof, xR, yR, null);
 
-      int xTT = Utility.xCenterImage(titleText, dim), yTT = 80;
+      int xTT = Utility.xCenterImage(titleText, gameDimension), yTT = 80;
       g2.drawImage(titleText, xTT, yTT, null);
 
-      int xTN = Utility.xCenterImage(titleNumber, dim), yTN = 210;
+      int xTN = Utility.xCenterImage(titleNumber, gameDimension), yTN = 210;
       g2.drawImage(titleNumber, xTN, yTN, null);
 
       introMan.paint(g2);
 
       g2.setColor(Color.white);
-      g2.drawString(difficulties[0], 8 * Utility.SPRITE_SIZE, 20 * Utility.SPRITE_SIZE);
-      g2.drawString(difficulties[1], 8 * Utility.SPRITE_SIZE, 22 * Utility.SPRITE_SIZE);
+      g2.drawString("NORMAL", 8 * Utility.SPRITE_SIZE, 20 * Utility.SPRITE_SIZE);
+      g2.drawString("DIFFICULT", 8 * Utility.SPRITE_SIZE, 22 * Utility.SPRITE_SIZE);
       g2.drawString(start, 6 * Utility.SPRITE_SIZE, 25 * Utility.SPRITE_SIZE);
 
       selector.paint(g2);
@@ -305,7 +308,7 @@ public class IntroPanel extends GamePanel {
         int x = 0, y = (int) cityY;
         g2.drawImage(city, x, y, null);
 
-        int xB = (dim.width - building.getWidth(null)), yB = (int) buildingY;
+        int xB = (gameDimension.width - building.getWidth(null)), yB = (int) buildingY;
         for (int i = 0; yB < boxY; i++) {
           if (showNotchless && i == notchlessPosition)
             g2.drawImage(notchlessBuilding, xB, yB, null);
@@ -314,14 +317,14 @@ public class IntroPanel extends GamePanel {
           yB += building.getHeight(null);
         }
 
-        int xR = dim.width - roof.getWidth(null), yR = (int) buildingY - roof.getHeight(null);
+        int xR = gameDimension.width - roof.getWidth(null), yR = (int) buildingY - roof.getHeight(null);
         g2.drawImage(roof, xR, yR, null);
 
         introMan.paint(g2);
 
-        if (boxY < dim.height) {
+        if (boxY < gameDimension.height) {
           g2.setColor(Color.black);
-          g2.fill(new Rectangle2D.Float(0.0f, boxY, dim.width, dim.height - boxY));
+          g2.fill(new Rectangle2D.Float(0.0f, boxY, gameDimension.width, gameDimension.height - boxY));
         }
       }
 
@@ -334,7 +337,7 @@ public class IntroPanel extends GamePanel {
       }
 
       if (stringCounter == 0)
-        g2.drawImage(megaman, Utility.xCenterImage(megaman, dim), 15, null);
+        g2.drawImage(megaman, Utility.xCenterImage(megaman, gameDimension), 15, null);
     }
   }
 
@@ -342,6 +345,7 @@ public class IntroPanel extends GamePanel {
   public void updateGame(long elapsedTime) {
     totalTime += elapsedTime;
 
+    GameState gameState = getGameState();
     introMan.update(elapsedTime);
 
     if (acceptKeyEvents)
@@ -356,14 +360,15 @@ public class IntroPanel extends GamePanel {
         introMan.setState(Introman.STATE_TELEPORTING);
       }
 
-      if (acceptKeyEvents)
+      if (acceptKeyEvents) {
         selector.update(elapsedTime);
+      }
 
       remix.update(elapsedTime);
 
       if (!teleportCued && introMan.getState() == Introman.STATE_TELEPORTING && introMan.launched()) {
         teleportCued = true;
-        soundManager.play(teleport);
+        gameState.getSoundManager().play(teleport);
       }
 
       if (introMan.teleported()) {
@@ -371,10 +376,12 @@ public class IntroPanel extends GamePanel {
           Thread.sleep(1500); // simulate slow NES loading times muahahaha
         } catch (InterruptedException e) {}
 
-        if (repeat)
-          start();
-        else
-          setDone(true);
+        if (repeat) {
+          reset();
+        } else {
+          GameTransitionEvent event = new GameTransitionEvent.Builder(GamePanel.Type.LEVEL_SELECT_PANEL).build();
+          declareTransitionEvent(event);
+        }
       }
     } else {
       while (totalTime >= triggers[triggerCount]) {
@@ -385,11 +392,13 @@ public class IntroPanel extends GamePanel {
   }
 
   private void performAction(int key) {
+    GameState gameState = getGameState();
     if (key < key1) {
       opacity = (FADE_INCREMENTS - Math.abs((key + 1) % (FADE_INCREMENTS * 2) - FADE_INCREMENTS)) * 255 / FADE_INCREMENTS;
       if ((key + 1) % (FADE_INCREMENTS * 2) == 0) {
-        if (stringCounter == 0)
-          midiPlayer.play(midi, false); // begin intro musica
+        if (stringCounter == 0) {
+          gameState.getMidiPlayer().play(midi, false); // begin intro musica
+        }
         stringCounter++;
       }
 
@@ -417,8 +426,9 @@ public class IntroPanel extends GamePanel {
         }
       }
 
-      if (buildingY >= dim.height - building.getHeight(null) - 21) {
-        buildingY = dim.height - building.getHeight(null) - 21;
+      Dimension gameDimension = gameState.getGameDimension();
+      if (buildingY >= gameDimension.height - building.getHeight(null) - 21) {
+        buildingY = gameDimension.height - building.getHeight(null) - 21;
         riseDone = true;
       }
 
@@ -427,16 +437,18 @@ public class IntroPanel extends GamePanel {
   }
 
   private void processInput() {
+    GameState gameState = getGameState();
+    InputListener inputListener = gameState.getInputListener();
     if (inputListener.hardKeyQuery(KeyEvent.VK_UP)) {
       if (riseDone) {
         selector.decrement();
-        soundManager.play(blip);
+        gameState.getSoundManager().play(blip);
       }
     }
     if (inputListener.hardKeyQuery(KeyEvent.VK_DOWN)) {
       if (riseDone) {
         selector.increment();
-        soundManager.play(blip);
+        gameState.getSoundManager().play(blip);
       }
     }
     if (inputListener.hardKeyQuery(KeyEvent.VK_ENTER)) {
@@ -444,16 +456,17 @@ public class IntroPanel extends GamePanel {
         repeat = false;
         acceptKeyEvents = false;
         introMan.setState(Introman.STATE_TELEPORTING);
-        midiPlayer.stop();
+        gameState.getMidiPlayer().stop();
 
-        if (selector.getIndex() == 0)
-          state.setDifficulty(GameState.NORMAL);
-        else
-          state.setDifficulty(GameState.DIFFICULT);
+        if (selector.getIndex() == 0) {
+          gameState.setDifficulty(GameDifficulty.NORMAL);
+        } else {
+          gameState.setDifficulty(GameDifficulty.DIFFICULT);
+        }
       } else {
         riseDone = true;
 
-        midiPlayer.play(midi, false, 37950000L);
+        gameState.getMidiPlayer().play(midi, false, 37950000L);
 
         buildingY = 315; // hard coded
         introMan.setPosition(25 * Utility.SPRITE_SIZE, buildingY - roof.getHeight(null) + Utility.SPRITE_SIZE);

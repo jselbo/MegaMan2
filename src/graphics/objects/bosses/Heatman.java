@@ -53,7 +53,7 @@ public class Heatman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "CHALLENGE 1";
+  public BossType getType() {
+    return BossType.HEATMAN;
   }
 }

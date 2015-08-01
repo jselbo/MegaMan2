@@ -1,44 +1,45 @@
 package application;
 
-import input.InputListener;
-
 import java.awt.Dimension;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
 import audio.MidiPlayer;
 import audio.SoundManager;
 
+import graphics.objects.bosses.BossType;
+
+import input.InputListener;
+
 public class GameState {
-  public static final int NUM_BOSSES = 9;
-  public static final int BUBBLEMAN = 0, AIRMAN = 1, QUICKMAN = 2, HEATMAN = 3,
-      DR_WILY = 4, WOODMAN = 5, METALMAN = 6, FLASHMAN = 7, CRASHMAN = 8;
-
-  public static final int NUM_DIFFICULTIES = 2;
-  public static final int NORMAL = 0, DIFFICULT = 1;
-
   private JFrame parent;
-  private Dimension screenDim, dim;
+  private Dimension screenDimension;
+  private Dimension gameDimension;
   private InputListener inputListener;
   private SoundManager soundManager;
   private MidiPlayer midiPlayer;
 
-  private boolean[] bosses;
-  private int difficulty;
-  private int energyTanks;
+  private Map<BossType, Boolean> bossClearFlags;
+  private GameDifficulty difficulty;
+  private int numEnergyTanks;
 
-  public GameState(JFrame parent, Dimension screenDim, Dimension dim, InputListener inputListener,
-            SoundManager soundManager, MidiPlayer midiPlayer) {
-    this.screenDim = screenDim;
-    this.dim = dim;
+  public GameState(JFrame parent, Dimension screenDimension, Dimension gameDimension, InputListener inputListener,
+      SoundManager soundManager, MidiPlayer midiPlayer) {
+    this.screenDimension = screenDimension;
+    this.gameDimension = gameDimension;
 
     this.inputListener = inputListener;
     this.soundManager = soundManager;
     this.midiPlayer = midiPlayer;
 
-    bosses = new boolean[NUM_BOSSES];
-    difficulty = NORMAL; // default
-    energyTanks = 0;
+    bossClearFlags = new HashMap<BossType, Boolean>();
+    for (BossType type : BossType.values()) {
+      bossClearFlags.put(type, false);
+    }
+    difficulty = GameDifficulty.NORMAL;
+    numEnergyTanks = 0;
   }
 
   public JFrame getParent() {
@@ -46,11 +47,11 @@ public class GameState {
   }
 
   public Dimension getScreenDimension() {
-    return screenDim;
+    return screenDimension;
   }
 
-  public Dimension getDimension() {
-    return dim;
+  public Dimension getGameDimension() {
+    return gameDimension;
   }
 
   public InputListener getInputListener() {
@@ -65,27 +66,27 @@ public class GameState {
     return midiPlayer;
   }
 
-  public void setDifficulty(int difficulty) {
+  public void setDifficulty(GameDifficulty difficulty) {
     this.difficulty = difficulty;
   }
 
-  public int getDifficulty() {
+  public GameDifficulty getDifficulty() {
     return difficulty;
   }
 
-  public void setBeaten(int boss, boolean beaten) {
-    bosses[boss] = beaten;
+  public void setBossCleared(BossType boss, boolean beaten) {
+    bossClearFlags.put(boss, beaten);
   }
 
-  public boolean isBeaten(int boss) {
-    return bosses[boss];
+  public boolean isBossCleared(BossType boss) {
+    return bossClearFlags.get(boss);
   }
 
-  public void setEnergyTanks(int energyTanks) {
-    this.energyTanks = energyTanks;
+  public void setEnergyTanks(int numEnergyTanks) {
+    this.numEnergyTanks = numEnergyTanks;
   }
 
-  public int energyTanks() {
-    return energyTanks;
+  public int getNumberEnergyTanks() {
+    return numEnergyTanks;
   }
 }

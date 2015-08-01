@@ -38,7 +38,7 @@ public class Woodman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Woodman";
+  public BossType getType() {
+    return BossType.WOODMAN;
   }
 }

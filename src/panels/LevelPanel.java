@@ -4,7 +4,7 @@ import application.GameState;
 import serialization.SerializedLevel;
 import util.IOUtil;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 
 import graphics.objects.Megaman;
 
@@ -15,8 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 
 public class LevelPanel extends GamePanel {
-  private static final long serialVersionUID = 1L;
-
   private Megaman hero;
 
   public LevelPanel(GameState state) {
@@ -38,7 +36,6 @@ public class LevelPanel extends GamePanel {
 
   @Override
   public void start() {
-    super.start();
   }
 
   @Override

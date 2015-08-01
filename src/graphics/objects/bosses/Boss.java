@@ -16,5 +16,5 @@ public abstract class Boss extends Sprite {
       throw new IllegalArgumentException("Fix the boss animations, bro");
   }
 
-  public abstract String getName();
+  public abstract BossType getType();
 }

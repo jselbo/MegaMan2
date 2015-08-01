@@ -38,7 +38,7 @@ public class Flashman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Flashman";
+  public BossType getType() {
+    return BossType.FLASHMAN;
   }
 }

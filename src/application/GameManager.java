@@ -1,7 +1,5 @@
 package application;
 
-import input.InputListener;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,18 +16,23 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import application.dialog.AboutDialog;
+import application.dialog.AudioDialog;
+
+import audio.MidiPlayer;
+import audio.SoundManager;
+
+import input.InputListener;
+
 import panels.GamePanel;
 import panels.IntroPanel;
 import panels.LevelPanel;
 import panels.LevelSelectPanel;
 import panels.PasswordPanel;
-import application.dialog.AboutDialog;
-import application.dialog.AudioDialog;
-import audio.MidiPlayer;
-import audio.SoundManager;
 
 public class GameManager implements Runnable {
-  private static final int SLEEP_TIME = (int)(1000f / 30f); // (1 second) divided by (frames per second)
+  // (1 second) divided by (frames per second)
+  private static final int SLEEP_TIME = (int)(1000f / 60f);
   private static final int START_PANEL = 0;
 
   // uncompressed, 44100Hz, 16-bit, stereo, signed, little-endian
@@ -38,15 +41,17 @@ public class GameManager implements Runnable {
   // GUI elements
   private JFrame frame;
   private JMenuBar menuBar;
-  private JMenuItem audioMenuItem, resetMenuItem, aboutMenuItem;
-
-  private GamePanel[] panels;
-  private GameState state;
-  private int currentPanel; // 0=IntroPanel, 1=PasswordPanel, 2=LevelSelectPanel, 3=LevelPanel
-
-  private boolean reset; // flagged by resetMenuItem click
+  private JMenuItem audioMenuItem, resetFlagMenuItem, aboutMenuItem;
 
   private JDialog audioDialog, aboutDialog;
+
+  // Game state
+  private Properties gameProperties;
+  private GamePanel currentPanel;
+  private GameState gameState;
+
+  private boolean resetFlag;
+  private boolean running;
 
   // Input elements
   private InputListener inputListener;
@@ -54,11 +59,6 @@ public class GameManager implements Runnable {
   // Audio elements
   private SoundManager soundManager;
   private MidiPlayer midiPlayer;
-
-  private Properties props;
-
-  // Other variables
-  private boolean running;
 
   public GameManager(JFrame frame) {
     this.frame = frame;
@@ -76,18 +76,16 @@ public class GameManager implements Runnable {
     midiPlayer = new MidiPlayer();
 
     Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-    state = new GameState(frame, screenDim, new Dimension(256 * 2, 240 * 2),
-        inputListener, soundManager, midiPlayer); // 16x15 blocks, 32 pixels each
+    gameState = new GameState(frame, screenDim, new Dimension(256 * 2, 240 * 2),
+        inputListener, soundManager, midiPlayer);
 
     loadProperties();
 
-    panels = new GamePanel[4];
-    currentPanel = 3;
-    setPanel(currentPanel);
+    removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(GamePanel.Type.INTRO_PANEL));
   }
 
   private void loadProperties() {
-    props = new Properties();
+    gameProperties = new Properties();
 
     FileInputStream in = null;
     try {
@@ -97,15 +95,15 @@ public class GameManager implements Runnable {
     }
 
     try {
-      props.load(in);
+      gameProperties.load(in);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    int volume = Integer.parseInt(props.getProperty("volumeLevel"));
+    int volume = Integer.parseInt(gameProperties.getProperty("volumeLevel"));
     midiPlayer.setVolume(volume);
 
-    boolean muted = Boolean.parseBoolean(props.getProperty("volumeMuted"));
+    boolean muted = Boolean.parseBoolean(gameProperties.getProperty("volumeMuted"));
     midiPlayer.setMuted(muted);
   }
 
@@ -118,15 +116,15 @@ public class GameManager implements Runnable {
     audioMenuItem = new JMenuItem("Audio...");
     audioMenuItem.addActionListener(listener);
     audioMenuItem.setMnemonic('a');
-    resetMenuItem = new JMenuItem("Reset");
-    resetMenuItem.addActionListener(listener);
-    resetMenuItem.setMnemonic('r');
+    resetFlagMenuItem = new JMenuItem("Reset");
+    resetFlagMenuItem.addActionListener(listener);
+    resetFlagMenuItem.setMnemonic('r');
     aboutMenuItem = new JMenuItem("About...");
     aboutMenuItem.addActionListener(listener);
     aboutMenuItem.setMnemonic('b');
 
     //optionsMenu.add(audioMenuItem);
-    gameMenu.add(resetMenuItem);
+    gameMenu.add(resetFlagMenuItem);
     gameMenu.add(aboutMenuItem);
 
     menuBar.add(gameMenu);
@@ -141,95 +139,81 @@ public class GameManager implements Runnable {
     new Thread(this).start();
   }
 
+  /**
+   * Game loop.
+   */
   public void run() {
-    long currentTime = System.currentTimeMillis();
+    long previousTime = System.currentTimeMillis();
 
     while (running) {
-      long elapsedTime = System.currentTimeMillis() - currentTime;
-      currentTime += elapsedTime;
+      long currentTime = System.currentTimeMillis();
+      long elapsedTime = currentTime - previousTime;
+      previousTime = currentTime;
 
-      update(elapsedTime);
+      updateGame(elapsedTime);
 
       try {
         Thread.sleep(SLEEP_TIME);
-      } catch (InterruptedException ex) {}
+      } catch (InterruptedException ie) {}
     }
   }
 
-  private void update(long elapsedTime) {
-    /*if (inputListener.hardKeyQuery(KeyEvent.VK_ESCAPE)) {
-      running = false;
-
-      device.setFullScreenWindow(null);
-
+  private void updateGame(long elapsedTime) {
+    if (resetFlag) {
+      resetFlag = false;
+      removeCurrentPanelAndLoad(GameTransitionEvent.emptyTransitionEvent(GamePanel.Type.INTRO_PANEL));
       return;
-    }*/
-
-    panels[currentPanel].updateGame(elapsedTime);
-
-    // Check if panel is done
-    if (panels[currentPanel].isDone()) {
-      switch (currentPanel) {
-      case 0: setPanel(1);
-        break;
-      case 1: setPanel(2);
-        break;
-      case 2: setPanel(3);
-        break;
-      case 3: setPanel(3);
-        break;
-      }
-    } else if (reset) {
-      reset = false;
-      setPanel(START_PANEL);
     }
 
-    // repaint after trying to switch panels to prevent
-    // NullPointerExceptions from the Graphics object (delayed painting)
-    panels[currentPanel].repaint();
+    if (currentPanel.getTransitionFlag()) {
+      removeCurrentPanelAndLoad(currentPanel.getTransitionEvent());
+    } else {
+      currentPanel.updateGame(elapsedTime);
+      currentPanel.paintImmediately(0, 0, currentPanel.getWidth(), currentPanel.getHeight());
+    }
   }
 
-  private void setPanel(int destinationPanel) {
+  private void removeCurrentPanelAndLoad(GameTransitionEvent event) {
     // Remove the current panel
-    if (panels[currentPanel] != null) {
-      panels[currentPanel].removeKeyListener(inputListener);
-      panels[currentPanel].removeMouseListener(inputListener);
-      panels[currentPanel].removeMouseMotionListener(inputListener);
-      panels[currentPanel].removeMouseWheelListener(inputListener);
+    if (currentPanel != null) {
+      currentPanel.removeKeyListener(inputListener);
+      currentPanel.removeMouseListener(inputListener);
+      currentPanel.removeMouseMotionListener(inputListener);
+      currentPanel.removeMouseWheelListener(inputListener);
 
-      frame.getContentPane().remove(panels[currentPanel]);
+      frame.getContentPane().remove(currentPanel);
     }
 
     inputListener.clearKeyStates();
 
-    // Initialize the next panel if it hasn't been created yet
-    if (panels[destinationPanel] == null) {
-      switch (destinationPanel) {
-      case 0: panels[destinationPanel] = new IntroPanel(state);
-        break;
-      case 1: panels[destinationPanel] = new PasswordPanel(state);
-        break;
-      case 2: panels[destinationPanel] = new LevelSelectPanel(state);
-        break;
-      case 3: panels[destinationPanel] = new LevelPanel(state);
-        break;
-      }
-    }
-
-    panels[destinationPanel].addKeyListener(inputListener);
-    panels[destinationPanel].addMouseListener(inputListener);
-    panels[destinationPanel].addMouseMotionListener(inputListener);
-    panels[destinationPanel].addMouseWheelListener(inputListener);
-
-    panels[destinationPanel].start();
+    GamePanel destinationPanel = createGamePanelFromType(event.getTargetPanelType());
+    destinationPanel.addKeyListener(inputListener);
+    destinationPanel.addMouseListener(inputListener);
+    destinationPanel.addMouseMotionListener(inputListener);
+    destinationPanel.addMouseWheelListener(inputListener);
 
     // Add the new panel
-    frame.getContentPane().add(panels[destinationPanel]);
+    frame.getContentPane().add(destinationPanel);
     frame.validate();
 
-    panels[destinationPanel].requestFocus();
+    destinationPanel.requestFocus();
+    destinationPanel.start();
 
     currentPanel = destinationPanel;
+  }
+
+  private GamePanel createGamePanelFromType(GamePanel.Type type) {
+    switch (type) {
+      case INTRO_PANEL:
+        return new IntroPanel(gameState);
+      case PASSWORD_PANEL:
+        return new PasswordPanel(gameState);
+      case LEVEL_SELECT_PANEL:
+        return new LevelSelectPanel(gameState);
+      case LEVEL_PLAY_PANEL:
+        return new LevelPanel(gameState);
+    }
+    throw new IllegalStateException("Invalid panel type");
   }
 
   private class MenuItemListener implements ActionListener {
@@ -241,8 +225,8 @@ public class GameManager implements Runnable {
 
         audioDialog.setLocationRelativeTo(frame);
         audioDialog.setVisible(true);
-      } else if (source.equals(resetMenuItem)) {
-        reset = true;
+      } else if (source.equals(resetFlagMenuItem)) {
+        resetFlag = true;
       } else if (source.equals(aboutMenuItem)) {
         if (aboutDialog == null)
           aboutDialog = new AboutDialog(frame);

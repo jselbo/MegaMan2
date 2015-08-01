@@ -2,6 +2,7 @@ package graphics.objects.enemies;
 
 import graphics.Animation;
 import graphics.Direction;
+import application.GameDifficulty;
 import application.GameState;
 import application.Utility;
 
@@ -12,7 +13,7 @@ public class Bird extends Enemy {
 
   private int type;
 
-  public Bird(int y, Direction direction, int type, int difficulty) {
+  public Bird(int y, Direction direction, int type, GameDifficulty difficulty) {
     super(loadAnimations(type));
 
     this.y = y;
@@ -21,13 +22,13 @@ public class Bird extends Enemy {
 
     if (direction == Direction.RIGHT) {
       x = -width;
-      if (difficulty == GameState.NORMAL)
+      if (difficulty == GameDifficulty.NORMAL)
         vx = VELOCITIES[type]/2;
       else
         vx = VELOCITIES[type];
     } else {
       x = 16*32;
-      if (difficulty == GameState.NORMAL)
+      if (difficulty == GameDifficulty.NORMAL)
         vx = -VELOCITIES[type]/2;
       else
         vx = -VELOCITIES[type];

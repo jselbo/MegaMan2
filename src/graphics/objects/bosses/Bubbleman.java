@@ -33,7 +33,7 @@ public class Bubbleman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Bubbleman";
+  public BossType getType() {
+    return BossType.BUBBLEMAN;
   }
 }

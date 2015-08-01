@@ -39,7 +39,7 @@ public class Quickman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Quickman";
+  public BossType getType() {
+    return BossType.QUICKMAN;
   }
 }

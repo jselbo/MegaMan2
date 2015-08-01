@@ -33,7 +33,7 @@ public class Crashman extends Boss {
   }
 
   @Override
-  public String getName() {
-    return "Crashman";
+  public BossType getType() {
+    return BossType.CRASHMAN;
   }
 }
