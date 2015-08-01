@@ -68,9 +68,10 @@ public abstract class GamePanel extends JPanel {
   }
 
   /**
-   * Called before this panel starts receiving update events. Use it to start a midi, start timers, etc.
+   * Called before this panel starts receiving update events.
+   * Use it to save event data, start a midi, start timers, etc.
    */
-  public abstract void start();
+  public abstract void prepareForUpdates(GameTransitionEvent transitionEvent);
 
   /**
    * All inputs should be processed by this method using the <code>inputListener</code>.

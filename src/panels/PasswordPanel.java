@@ -34,7 +34,7 @@ public class PasswordPanel extends GamePanel {
   private long runningFadeTime;
   private boolean fading;
 
-  // set to true after game started, read in start()
+  // set to true after game started, read in prepareForUpdates()
   private boolean firstRun;
 
   // defines behavior in paintComponent, update, and key listener methods
@@ -114,7 +114,7 @@ public class PasswordPanel extends GamePanel {
   }
 
   @Override
-  public void start() {
+  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
     if (firstRun) {
       frameState = FrameState.PASSWORD;
 

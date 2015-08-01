@@ -1,6 +1,7 @@
 package panels;
 
 import application.GameState;
+import application.GameTransitionEvent;
 import serialization.SerializedLevel;
 import util.IOUtil;
 
@@ -17,8 +18,8 @@ import java.io.IOException;
 public class LevelPlayPanel extends GamePanel {
   private Megaman hero;
 
-  public LevelPlayPanel(GameState state) {
-    super(state);
+  public LevelPlayPanel(GameState gameState) {
+    super(gameState);
 
     setBackground(Color.BLACK);
     hero = new Megaman();
@@ -35,7 +36,7 @@ public class LevelPlayPanel extends GamePanel {
   }
 
   @Override
-  public void start() {
+  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
   }
 
   @Override

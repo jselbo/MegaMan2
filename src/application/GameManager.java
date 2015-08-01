@@ -199,7 +199,7 @@ public class GameManager implements Runnable {
     frame.validate();
 
     destinationPanel.requestFocus();
-    destinationPanel.start();
+    destinationPanel.prepareForUpdates(event);
 
     currentPanel = destinationPanel;
   }

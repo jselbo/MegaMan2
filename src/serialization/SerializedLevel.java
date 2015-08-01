@@ -6,12 +6,23 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class SerializedLevel {
+  public enum RenderOrder {
+    @SerializedName("right-down")
+    RIGHT_DOWN;
+  }
+
+  public enum Orientation {
+    @SerializedName("orthogonal")
+    ORTHOGONAL;
+  }
+
   private int version;
 
   @SerializedName("nextobjectid")
   private int nextObjectId;
   @SerializedName("renderorder")
-  private String renderOrder;
+  private SerializedLevel.RenderOrder renderOrder;
+  private SerializedLevel.Orientation orientation;
   private Map<String, String> properties;
 
   private int width;
@@ -21,14 +32,13 @@ public class SerializedLevel {
   private int tileWidth;
   @SerializedName("tileheight")
   private int tileHeight;
-  private String orientation;
 
   private SerializedLayer[] layers;
   private SerializedTileset[] tilesets;
 
   @Override
   public String toString() {
-    return String.format("SerializedLevel: {w: %d, h: %d, layers: %s, tilsets: %s}", width, height,
+    return String.format("SerializedLevel: {w: %d, h: %d, layers: %s, tilesets: %s}", width, height,
       Arrays.toString(layers), Arrays.toString(tilesets));
   }
 }

@@ -124,7 +124,7 @@ public class IntroPanel extends GamePanel {
   }
 
   @Override
-  public void start() {
+  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
     reset();
   }
 

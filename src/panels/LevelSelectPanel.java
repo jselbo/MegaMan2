@@ -200,7 +200,7 @@ public class LevelSelectPanel extends GamePanel {
   }
 
   @Override
-  public void start() {
+  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
     getGameState().getMidiPlayer().play(selectMidi, true);
   }
 
