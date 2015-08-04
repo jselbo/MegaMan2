@@ -1,18 +1,12 @@
 package application.dialog;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
+import util.IOUtils;
+import util.TextUtils;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import application.Utility;
+import java.awt.*;
 
 public class AboutDialog extends JDialog {
   private static final long serialVersionUID = 1L;
@@ -33,7 +27,7 @@ public class AboutDialog extends JDialog {
     private String[] text;
 
     public AboutPanel() {
-      bg = Utility.loadImage("res/images/overworld/about_background.png");
+      bg = IOUtils.loadImage("res/images/overworld/about_background.png");
 
       dim = new Dimension(bg.getWidth(null) + 100, bg.getHeight(null) + 275);
       setPreferredSize(dim);
@@ -67,7 +61,7 @@ public class AboutDialog extends JDialog {
       g2.setFont(font);
       g2.setColor(Color.black);
       for (int i = 0; i < text.length; i++)
-        g2.drawString(text[i], Utility.xCenterText(text[i], font, dim), 30 + bg.getHeight(null) + 20*i);
+        g2.drawString(text[i], TextUtils.xCenterText(text[i], font, dim), 30 + bg.getHeight(null) + 20*i);
     }
   }
 }

@@ -1,17 +1,14 @@
 package application;
 
+import audio.MidiPlayer;
+import audio.SoundManager;
+import graphics.objects.bosses.BossType;
+import input.InputListener;
+
+import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JFrame;
-
-import audio.MidiPlayer;
-import audio.SoundManager;
-
-import graphics.objects.bosses.BossType;
-
-import input.InputListener;
 
 public class GameState {
   private JFrame parent;

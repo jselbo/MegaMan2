@@ -1,41 +1,24 @@
 package panels;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sound.midi.Sequence;
-
+import application.GameManager;
 import application.GameState;
 import application.GameTransitionEvent;
 import application.GameTransitionEventKey;
-import application.Utility;
-
 import audio.Sound;
-
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import graphics.Animation;
 import graphics.Sprite;
-import graphics.objects.bosses.Airman;
 import graphics.objects.bosses.Boss;
 import graphics.objects.bosses.BossType;
-import graphics.objects.bosses.Bubbleman;
-import graphics.objects.bosses.Crashman;
-import graphics.objects.bosses.Flashman;
-import graphics.objects.bosses.Heatman;
-import graphics.objects.bosses.Metalman;
-import graphics.objects.bosses.Quickman;
-import graphics.objects.bosses.Woodman;
-
 import input.InputListener;
+import util.IOUtils;
+import util.TextUtils;
+
+import javax.sound.midi.Sequence;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.Map;
 
 public class LevelSelectPanel extends GamePanel {
   private static final BossType[][] BOSS_LAYOUT =
@@ -87,41 +70,41 @@ public class LevelSelectPanel extends GamePanel {
     blip = gameState.getSoundManager().getSound("res/audio/sound_effects/blip1.wav");
 
     String imageBase = "res/images/overworld/";
-    background = Utility.loadImage(imageBase + "select_background.png");
+    background = IOUtils.loadImage(imageBase + "select_background.png");
 
     bossTypeIconMap = new ImmutableMap.Builder<BossType, BossIcon>()
-      .put(BossType.BUBBLEMAN, new BossIcon(Utility.loadImage(imageBase + "bubbleman.png"), "BUBBLE", "MAN"))
-      .put(BossType.AIRMAN, new BossIcon(Utility.loadImage(imageBase + "airman.png"), "AIR", "MAN"))
-      .put(BossType.QUICKMAN, new BossIcon(Utility.loadImage(imageBase + "quickman.png"), "QUICK", "MAN"))
-      .put(BossType.HEATMAN, new BossIcon(Utility.loadImage(imageBase + "heatman.png"), "HEAT", "MAN"))
-      .put(BossType.DR_WILY, new BossIcon(Utility.loadImage(imageBase + "dr_wily.png"), "DR.", "WILY"))
-      .put(BossType.WOODMAN, new BossIcon(Utility.loadImage(imageBase + "woodman.png"), "WOOD", "MAN"))
-      .put(BossType.METALMAN, new BossIcon(Utility.loadImage(imageBase + "metalman.png"), "METAL", "MAN"))
-      .put(BossType.FLASHMAN, new BossIcon(Utility.loadImage(imageBase + "flashman.png"), "FLASH", "MAN"))
-      .put(BossType.CRASHMAN, new BossIcon(Utility.loadImage(imageBase + "crashman.png"), "CRASH", "MAN"))
+      .put(BossType.BUBBLEMAN, new BossIcon(IOUtils.loadImage(imageBase + "bubbleman.png"), "BUBBLE", "MAN"))
+      .put(BossType.AIRMAN, new BossIcon(IOUtils.loadImage(imageBase + "airman.png"), "AIR", "MAN"))
+      .put(BossType.QUICKMAN, new BossIcon(IOUtils.loadImage(imageBase + "quickman.png"), "QUICK", "MAN"))
+      .put(BossType.HEATMAN, new BossIcon(IOUtils.loadImage(imageBase + "heatman.png"), "HEAT", "MAN"))
+      .put(BossType.DR_WILY, new BossIcon(IOUtils.loadImage(imageBase + "dr_wily.png"), "DR.", "WILY"))
+      .put(BossType.WOODMAN, new BossIcon(IOUtils.loadImage(imageBase + "woodman.png"), "WOOD", "MAN"))
+      .put(BossType.METALMAN, new BossIcon(IOUtils.loadImage(imageBase + "metalman.png"), "METAL", "MAN"))
+      .put(BossType.FLASHMAN, new BossIcon(IOUtils.loadImage(imageBase + "flashman.png"), "FLASH", "MAN"))
+      .put(BossType.CRASHMAN, new BossIcon(IOUtils.loadImage(imageBase + "crashman.png"), "CRASH", "MAN"))
       .build();
     for (Map.Entry<BossType, BossIcon> entry : bossTypeIconMap.entrySet()) {
       BossIcon icon = entry.getValue();
       icon.isCleared = gameState.isBossCleared(entry.getKey());
     }
 
-    banner = Utility.loadImage(imageBase + "banner.png");
+    banner = IOUtils.loadImage(imageBase + "banner.png");
 
     stars = new Image[6];
     String starBase = "res/images/overworld/stars/";
     for (int i = 0; i < 3; i++) {
-      stars[i] = Utility.loadImage(starBase + "top" + (i+1) + ".png");
-      stars[i+3] = Utility.loadImage(starBase + "bottom" + (i+1) + ".png");
+      stars[i] = IOUtils.loadImage(starBase + "top" + (i+1) + ".png");
+      stars[i+3] = IOUtils.loadImage(starBase + "bottom" + (i+1) + ".png");
     }
 
     starPos = new float[3];
 
     Animation anim = new Animation();
-    anim.addFrame(Utility.loadImage(imageBase + "box_selector.png"), 133);
+    anim.addFrame(IOUtils.loadImage(imageBase + "box_selector.png"), 133);
     anim.addFrame(null, 133);
     boxSelector = new Sprite(new Animation[] {anim});
-    boxSelector.setPosition(5*Utility.SPRITE_SIZE + 8*Utility.SPRITE_SIZE*selectedColumn,
-        (int)(3.25*Utility.SPRITE_SIZE) + 8*Utility.SPRITE_SIZE*selectedRow);
+    boxSelector.setPosition(5*GameManager.SPRITE_SIZE + 8*GameManager.SPRITE_SIZE*selectedColumn,
+        (int)(3.25*GameManager.SPRITE_SIZE) + 8*GameManager.SPRITE_SIZE*selectedRow);
   }
 
   @Override
@@ -156,27 +139,27 @@ public class LevelSelectPanel extends GamePanel {
       for (int i = 0; i < BOSS_LAYOUT.length; i++) {
         for (int j = 0; j < BOSS_LAYOUT[i].length; j++) {
           BossIcon bossIcon = bossTypeIconMap.get(BOSS_LAYOUT[i][j]);
-          int x = 5*Utility.SPRITE_SIZE + 8*Utility.SPRITE_SIZE*j;
-          int y = (int)(3.25*Utility.SPRITE_SIZE) + 8*Utility.SPRITE_SIZE*i;
+          int x = 5*GameManager.SPRITE_SIZE + 8*GameManager.SPRITE_SIZE*j;
+          int y = (int)(3.25*GameManager.SPRITE_SIZE) + 8* GameManager.SPRITE_SIZE*i;
           g2.drawImage(bossIcon.icon, x, y, null);
 
           boxSelector.paint(g2);
 
           if (bossIcon.isCleared) {
             g2.setColor(Color.black);
-            g2.fillRect(x + Utility.SPRITE_SIZE, y + Utility.SPRITE_SIZE,
-                4 * Utility.SPRITE_SIZE, 4 * Utility.SPRITE_SIZE);
+            g2.fillRect(x + GameManager.SPRITE_SIZE, y + GameManager.SPRITE_SIZE,
+                4 * GameManager.SPRITE_SIZE, 4 * GameManager.SPRITE_SIZE);
           } else {
             if (bossIcon.topTitleName.length() > 3)
               g2.drawString(bossIcon.topTitleName,
-                  x - (int)(0.25*Utility.SPRITE_SIZE),
-                  y + (int)(6.7*Utility.SPRITE_SIZE));
+                  x - (int)(0.25*GameManager.SPRITE_SIZE),
+                  y + (int)(6.7*GameManager.SPRITE_SIZE));
             else
-              g2.drawString(bossIcon.topTitleName, x + (int)(0.8*Utility.SPRITE_SIZE), y + (int)(6.7*Utility.SPRITE_SIZE));
+              g2.drawString(bossIcon.topTitleName, x + (int)(0.8*GameManager.SPRITE_SIZE), y + (int)(6.7*GameManager.SPRITE_SIZE));
 
             g2.drawString(bossIcon.bottomTitleName,
-                Utility.rightJustify(bossIcon.bottomTitleName, getGameFont(), x + 5*Utility.SPRITE_SIZE) + (int)(0.7*Utility.SPRITE_SIZE),
-                y + (int)(7.75*Utility.SPRITE_SIZE));
+                TextUtils.rightJustify(bossIcon.bottomTitleName, getGameFont(), x + 5*GameManager.SPRITE_SIZE) + (int)(0.7*GameManager.SPRITE_SIZE),
+                y + (int)(7.75*GameManager.SPRITE_SIZE));
           }
         }
       }
@@ -194,7 +177,7 @@ public class LevelSelectPanel extends GamePanel {
 
       if (bossState >= 3) {
         g2.setColor(Color.white);
-        g2.drawString(name, Utility.xCenterText(name, getGameFont(), gameDimension), gameDimension.height/2 + 25);
+        g2.drawString(name, TextUtils.xCenterText(name, getGameFont(), gameDimension), gameDimension.height/2 + 25);
       }
     }
   }
@@ -330,8 +313,8 @@ public class LevelSelectPanel extends GamePanel {
     }
 
     if (moved) {
-      boxSelector.setPosition(5*Utility.SPRITE_SIZE + 8*Utility.SPRITE_SIZE*selectedColumn,
-          (int)(3.25*Utility.SPRITE_SIZE) + 8*Utility.SPRITE_SIZE*selectedRow);
+      boxSelector.setPosition(5*GameManager.SPRITE_SIZE + 8*GameManager.SPRITE_SIZE*selectedColumn,
+          (int)(3.25*GameManager.SPRITE_SIZE) + 8*GameManager.SPRITE_SIZE*selectedRow);
       gameState.getSoundManager().play(blip);
     }
   }

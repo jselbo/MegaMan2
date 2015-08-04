@@ -1,21 +1,15 @@
 package panels;
 
+import application.GameManager;
+import application.GameState;
+import application.GameTransitionEvent;
+
+import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
-
-import javax.swing.JPanel;
-
-import application.GameState;
-import application.GameTransitionEvent;
-import application.Utility;
-
-import audio.SoundManager;
-import audio.MidiPlayer;
-
-import input.InputListener;
 
 public abstract class GamePanel extends JPanel {
   public enum Type {
@@ -36,7 +30,7 @@ public abstract class GamePanel extends JPanel {
     this.gameState = gameState;
 
     Dimension gameDimension = gameState.getGameDimension();
-    setPreferredSize(new Dimension(gameDimension.width - Utility.WINDOW_BORDER, gameDimension.height - Utility.WINDOW_BORDER));
+    setPreferredSize(new Dimension(gameDimension.width - GameManager.WINDOW_BORDER, gameDimension.height - GameManager.WINDOW_BORDER));
     setDoubleBuffered(true);
 
     try {

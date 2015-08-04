@@ -2,10 +2,9 @@ package graphics.objects;
 
 import graphics.Animation;
 import graphics.Sprite;
+import util.IOUtils;
 
 import java.awt.Image;
-
-import application.Utility;
 
 public class Introman extends Sprite {
   public final static int STATE_IDLE = 0;
@@ -30,14 +29,14 @@ public class Introman extends Sprite {
     anim[STATE_IDLE] = new Animation();
     final int IDLE_IMGS = 2;
     for (int i = 0; i < IDLE_IMGS; i++) {
-      Image img = Utility.loadImage(base + "hair" + (i+1) + ".png");
+      Image img = IOUtils.loadImage(base + "hair" + (i + 1) + ".png");
       anim[STATE_IDLE].addFrame(img, 83);
     }
 
     anim[STATE_TELEPORTING] = new Animation(false);
     Image[] teleportingImages = new Image[12];
     for (int i = 0; i < teleportingImages.length; i++)
-      teleportingImages[i] = Utility.loadImage(base + "teleport" + (i+1) + ".png");
+      teleportingImages[i] = IOUtils.loadImage(base + "teleport" + (i+1) + ".png");
     anim[STATE_TELEPORTING].addFrame(teleportingImages[0], 67);
     anim[STATE_TELEPORTING].addFrame(teleportingImages[1], 67);
     anim[STATE_TELEPORTING].addFrame(teleportingImages[2], 67);

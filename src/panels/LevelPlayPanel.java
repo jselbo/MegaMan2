@@ -2,18 +2,16 @@ package panels;
 
 import application.GameState;
 import application.GameTransitionEvent;
-import serialization.SerializedLevel;
-import util.IOUtil;
-
 import com.google.gson.Gson;
-
 import graphics.objects.Megaman;
+import serialization.SerializedLevel;
+import util.IOUtils;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class LevelPlayPanel extends GamePanel {
   private Megaman hero;
@@ -26,7 +24,7 @@ public class LevelPlayPanel extends GamePanel {
 
     String levelStr;
     try {
-      levelStr = IOUtil.readFile("res/levels/woodman/overworld.json", StandardCharsets.UTF_8);
+      levelStr = IOUtils.readFileContents("res/levels/woodman/overworld.json", StandardCharsets.UTF_8);
       Gson gson = new Gson();
       SerializedLevel level = gson.fromJson(levelStr, SerializedLevel.class);
       System.out.println("Level: " + level);

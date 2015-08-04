@@ -1,7 +1,5 @@
 package serialization;
 
-import java.util.Map;
-
 public class SerializedMapping {
   private TileType[][] tileTypes;
 

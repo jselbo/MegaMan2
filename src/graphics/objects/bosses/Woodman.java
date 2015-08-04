@@ -1,10 +1,9 @@
 package graphics.objects.bosses;
 
 import graphics.Animation;
+import util.IOUtils;
 
 import java.awt.Image;
-
-import application.Utility;
 
 public class Woodman extends Boss {
   public Woodman() {
@@ -16,7 +15,7 @@ public class Woodman extends Boss {
 
     String base = "res/images/bosses/woodman/";
 
-    Image idle = Utility.loadImage(base + "idle.png");
+    Image idle = IOUtils.loadImage(base + "idle.png");
 
     anims[STATE_IDLE] = new Animation();
     anims[STATE_IDLE].addFrame(idle, 0);
@@ -26,12 +25,12 @@ public class Woodman extends Boss {
 
     anims[STATE_TAUNT] = new Animation(false);
     anims[STATE_TAUNT].addFrame(idle, 1000);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt1.png"), 133);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt2.png"), 133);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt1.png"), 133);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt2.png"), 133);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt1.png"), 133);
-    anims[STATE_TAUNT].addFrame(Utility.loadImage(base + "taunt2.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt1.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt2.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt1.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt2.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt1.png"), 133);
+    anims[STATE_TAUNT].addFrame(IOUtils.loadImage(base + "taunt2.png"), 133);
     anims[STATE_TAUNT].addFrame(idle, 100);
 
     return anims;

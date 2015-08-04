@@ -1,14 +1,14 @@
 package graphics.objects;
 
+import application.GameManager;
 import graphics.Direction;
+import util.IOUtils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.util.Arrays;
-
-import application.Utility;
 
 public class PasswordGrid {
   private static final char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -34,8 +34,8 @@ public class PasswordGrid {
     selector = new OrbSelector(rows, cols);
 
     String imageBase = "res/images/overworld/";
-    orb = Utility.loadImage(imageBase + "orb.png");
-    grid = Utility.loadImage(imageBase + "grid.png");
+    orb = IOUtils.loadImage(imageBase + "orb.png");
+    grid = IOUtils.loadImage(imageBase + "grid.png");
 
     numOrbs = 0;
   }
@@ -45,24 +45,24 @@ public class PasswordGrid {
 
     // Draw letters
     for (int i = 0; i < pwGrid.length; i++) {
-      int x = corner.x - 2 * Utility.SPRITE_SIZE;
-      int y = (int)((float)Utility.SPRITE_SIZE * (2*i + 1.5f)) + corner.y;
+      int x = corner.x - 2 * GameManager.SPRITE_SIZE;
+      int y = (int)((float)GameManager.SPRITE_SIZE * (2*i + 1.5f)) + corner.y;
       char c = ALPHABET[i % ALPHABET.length];
       g2.drawString(Character.toString(c), x, y);
     }
 
     // Draw numbers
     for (int i = 0; i < pwGrid[0].length; i++) {
-      int x = (int)((float)Utility.SPRITE_SIZE * (2*i + 0.5f)) + corner.x;
-      int y = corner.y - Utility.SPRITE_SIZE;
+      int x = (int)((float)GameManager.SPRITE_SIZE * (2*i + 0.5f)) + corner.x;
+      int y = corner.y - GameManager.SPRITE_SIZE;
       g2.drawString(Integer.toString(i+1), x, y);
     }
 
     // Draw grid and orbs
     for (int i = 0; i < pwGrid.length; i++) {
       for (int j = 0; j < pwGrid[i].length; j++) {
-        int gridX = 2 * Utility.SPRITE_SIZE * j + corner.x;
-        int gridY = 2 * Utility.SPRITE_SIZE * i + corner.y;
+        int gridX = 2 * GameManager.SPRITE_SIZE * j + corner.x;
+        int gridY = 2 * GameManager.SPRITE_SIZE * i + corner.y;
         g2.drawImage(grid, gridX, gridY, null);
         if (pwGrid[i][j])
           g2.drawImage(orb, gridX + 2, gridY + 2, null);
@@ -109,15 +109,15 @@ public class PasswordGrid {
   public void setCorner(Point corner) {
     this.corner = corner;
 
-    selector.setPosition(corner.x + 2 * Utility.SPRITE_SIZE * selector.getColumn() + 4,
-        corner.y + 2 * Utility.SPRITE_SIZE * selector.getRow() + 4);
+    selector.setPosition(corner.x + 2 * GameManager.SPRITE_SIZE * selector.getColumn() + 4,
+        corner.y + 2 * GameManager.SPRITE_SIZE * selector.getRow() + 4);
   }
 
   public void move(Direction direction) {
     selector.move(direction);
 
-    selector.setPosition(corner.x + 2 * Utility.SPRITE_SIZE * selector.getColumn() + 4,
-        corner.y + 2 * Utility.SPRITE_SIZE * selector.getRow() + 4);
+    selector.setPosition(corner.x + 2 * GameManager.SPRITE_SIZE * selector.getColumn() + 4,
+        corner.y + 2 * GameManager.SPRITE_SIZE * selector.getRow() + 4);
   }
 
   public void reset() {

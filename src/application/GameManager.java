@@ -1,5 +1,14 @@
 package application;
 
+import application.dialog.AboutDialog;
+import application.dialog.AudioDialog;
+import audio.MidiPlayer;
+import audio.SoundManager;
+import input.InputListener;
+import panels.*;
+
+import javax.sound.sampled.AudioFormat;
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -9,28 +18,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.sound.sampled.AudioFormat;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-import application.dialog.AboutDialog;
-import application.dialog.AudioDialog;
-
-import audio.MidiPlayer;
-import audio.SoundManager;
-
-import input.InputListener;
-
-import panels.GamePanel;
-import panels.IntroPanel;
-import panels.LevelPlayPanel;
-import panels.LevelSelectPanel;
-import panels.PasswordPanel;
-
 public class GameManager implements Runnable {
+  // -- Global constants --
+
+  // Total window border thickness on Windows 7 (thin border variant)
+  public static final int WINDOW_BORDER = 10;
+  // width and height of each game block, or sprite
+  public static final int SPRITE_SIZE = 16;
+  public static final int BLOCK_SIZE = 32;
+
   // (1 second) divided by (frames per second)
   private static final int SLEEP_TIME = (int)(1000f / 60f);
   private static final int START_PANEL = 0;

@@ -1,31 +1,23 @@
 package panels;
 
+import application.GameDifficulty;
+import application.GameManager;
+import application.GameState;
+import application.GameTransitionEvent;
+import audio.Sound;
 import graphics.Direction;
 import graphics.objects.Introman;
 import graphics.objects.Remix;
 import graphics.objects.Selector;
+import input.InputListener;
+import util.IOUtils;
+import util.TextUtils;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import javax.sound.midi.Sequence;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
-
-import javax.sound.midi.Sequence;
-
-import application.GameDifficulty;
-import application.GameState;
-import application.GameTransitionEvent;
-import application.Utility;
-
-import audio.Sound;
-
-import input.InputListener;
 
 public class IntroPanel extends GamePanel {
   // total time (milliseconds) for a complete fade-in or fade-out
@@ -105,19 +97,19 @@ public class IntroPanel extends GamePanel {
 
     // Load in images
     String base = "res/images/intro/";
-    city = Utility.loadImage(base + "city.png");
-    building = Utility.loadImage(base + "building_section.png");
-    notchlessBuilding = Utility.loadImage(base + "notchless_building_section.png");
-    roof = Utility.loadImage(base + "building_roof.png");
-    titleText = Utility.loadImage(base + "title_text.png");
-    titleNumber = Utility.loadImage(base + "title_number.png");
+    city = IOUtils.loadImage(base + "city.png");
+    building = IOUtils.loadImage(base + "building_section.png");
+    notchlessBuilding = IOUtils.loadImage(base + "notchless_building_section.png");
+    roof = IOUtils.loadImage(base + "building_roof.png");
+    titleText = IOUtils.loadImage(base + "title_text.png");
+    titleNumber = IOUtils.loadImage(base + "title_number.png");
 
-    megaman = Utility.loadImage(base + "megaman.png");
+    megaman = IOUtils.loadImage(base + "megaman.png");
 
     remix = new Remix(25, 15);
 
-    selector = new Selector(1, 2 * Utility.SPRITE_SIZE);
-    selector.setPosition(6 * Utility.SPRITE_SIZE, 2 + 19 * Utility.SPRITE_SIZE);
+    selector = new Selector(1, 2 * GameManager.SPRITE_SIZE);
+    selector.setPosition(6 * GameManager.SPRITE_SIZE, 2 + 19 * GameManager.SPRITE_SIZE);
 
     introMan = new Introman();
     introMan.setDirection(Direction.LEFT);
@@ -140,7 +132,7 @@ public class IntroPanel extends GamePanel {
 
     selector.reset();
 
-    introMan.setPosition(25 * Utility.SPRITE_SIZE, -building.getHeight(null));
+    introMan.setPosition(25 * GameManager.SPRITE_SIZE, -building.getHeight(null));
     introMan.reset();
 
     cityY = -82.0f;
@@ -211,7 +203,7 @@ public class IntroPanel extends GamePanel {
     for (int i = 0; i < textData.length; i++) {
       textPoints[i] = new Point[textData[i].length];
       for (int j = 0; j < textData[i].length; j++) {
-        int x = Utility.xCenterText(textData[i][j], getGameFont(), gameDimension);
+        int x = TextUtils.xCenterText(textData[i][j], getGameFont(), gameDimension);
         int y = (i == 0) ? (2 * gameDimension.height / 5) + (30 * j) : gameDimension.height - 70 + (30 * j);
         textPoints[i][j] = new Point(x, y);
       }
@@ -287,18 +279,18 @@ public class IntroPanel extends GamePanel {
           - roof.getHeight(null);
       g2.drawImage(roof, xR, yR, null);
 
-      int xTT = Utility.xCenterImage(titleText, gameDimension), yTT = 80;
+      int xTT = TextUtils.xCenterImage(titleText, gameDimension), yTT = 80;
       g2.drawImage(titleText, xTT, yTT, null);
 
-      int xTN = Utility.xCenterImage(titleNumber, gameDimension), yTN = 210;
+      int xTN = TextUtils.xCenterImage(titleNumber, gameDimension), yTN = 210;
       g2.drawImage(titleNumber, xTN, yTN, null);
 
       introMan.paint(g2);
 
       g2.setColor(Color.white);
-      g2.drawString("NORMAL", 8 * Utility.SPRITE_SIZE, 20 * Utility.SPRITE_SIZE);
-      g2.drawString("DIFFICULT", 8 * Utility.SPRITE_SIZE, 22 * Utility.SPRITE_SIZE);
-      g2.drawString(start, 6 * Utility.SPRITE_SIZE, 25 * Utility.SPRITE_SIZE);
+      g2.drawString("NORMAL", 8 * GameManager.SPRITE_SIZE, 20 * GameManager.SPRITE_SIZE);
+      g2.drawString("DIFFICULT", 8 * GameManager.SPRITE_SIZE, 22 * GameManager.SPRITE_SIZE);
+      g2.drawString(start, 6 * GameManager.SPRITE_SIZE, 25 * GameManager.SPRITE_SIZE);
 
       selector.paint(g2);
 
@@ -337,7 +329,7 @@ public class IntroPanel extends GamePanel {
       }
 
       if (stringCounter == 0)
-        g2.drawImage(megaman, Utility.xCenterImage(megaman, gameDimension), 15, null);
+        g2.drawImage(megaman, TextUtils.xCenterImage(megaman, gameDimension), 15, null);
     }
   }
 
@@ -432,7 +424,7 @@ public class IntroPanel extends GamePanel {
         riseDone = true;
       }
 
-      introMan.setPosition(25 * Utility.SPRITE_SIZE, buildingY - roof.getHeight(null) + Utility.SPRITE_SIZE);
+      introMan.setPosition(25 * GameManager.SPRITE_SIZE, buildingY - roof.getHeight(null) + GameManager.SPRITE_SIZE);
     }
   }
 
@@ -469,7 +461,7 @@ public class IntroPanel extends GamePanel {
         gameState.getMidiPlayer().play(midi, false, 37950000L);
 
         buildingY = 315; // hard coded
-        introMan.setPosition(25 * Utility.SPRITE_SIZE, buildingY - roof.getHeight(null) + Utility.SPRITE_SIZE);
+        introMan.setPosition(25 * GameManager.SPRITE_SIZE, buildingY - roof.getHeight(null) + GameManager.SPRITE_SIZE);
       }
     }
   }

@@ -3,11 +3,10 @@ package graphics.objects;
 import graphics.Animation;
 import graphics.Direction;
 import graphics.Sprite;
+import util.IOUtils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-
-import application.Utility;
 
 public class OrbSelector extends Sprite {
   private int maxRow, maxCol;
@@ -39,7 +38,7 @@ public class OrbSelector extends Sprite {
     String base = "res/images/overworld/";
     Image[] images = new Image[3];
     for (int i = 0; i < images.length; i++)
-      images[i] = Utility.loadImage(base + "orb_selector" + (i+1) + ".png");
+      images[i] = IOUtils.loadImage(base + "orb_selector" + (i + 1) + ".png");
     anim.addFrame(images[0], 100);
     anim.addFrame(images[1], 33);
     anim.addFrame(images[2], 33);

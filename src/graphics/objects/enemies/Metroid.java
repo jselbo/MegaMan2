@@ -1,9 +1,8 @@
 package graphics.objects.enemies;
 
-import graphics.Animation;
 import application.GameDifficulty;
-import application.GameState;
-import application.Utility;
+import graphics.Animation;
+import util.IOUtils;
 
 public class Metroid extends Enemy {
   public static final int STATE_FLYING = 1;
@@ -34,12 +33,12 @@ public class Metroid extends Enemy {
     String base = "res/images/enemies/";
 
     anims[STATE_EXPLODING] = new Animation(false);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode1.png"), 200);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode2.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode1.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode2.png"), 200);
 
     anims[STATE_FLYING] = new Animation(true);
-    anims[STATE_FLYING].addFrame(Utility.loadImage(base + "metroid1.png"), 200);
-    anims[STATE_FLYING].addFrame(Utility.loadImage(base + "metroid2.png"), 200);
+    anims[STATE_FLYING].addFrame(IOUtils.loadImage(base + "metroid1.png"), 200);
+    anims[STATE_FLYING].addFrame(IOUtils.loadImage(base + "metroid2.png"), 200);
 
     return anims;
   }

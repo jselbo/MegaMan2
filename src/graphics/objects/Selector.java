@@ -1,12 +1,11 @@
 package graphics.objects;
 
-import graphics.Sprite;
 import graphics.Animation;
+import graphics.Sprite;
+import util.IOUtils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-
-import application.Utility;
 
 public class Selector extends Sprite {
   private int position;
@@ -33,7 +32,7 @@ public class Selector extends Sprite {
     Animation[] anims = new Animation[1];
 
     Animation anim = new Animation();
-    Image image = Utility.loadImage("res/images/general/selector.png");
+    Image image = IOUtils.loadImage("res/images/general/selector.png");
     anim.addFrame(image, 133);
     anim.addFrame(null, 133);
 

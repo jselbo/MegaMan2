@@ -1,10 +1,9 @@
 package graphics.objects.enemies;
 
+import application.GameDifficulty;
 import graphics.Animation;
 import graphics.Direction;
-import application.GameDifficulty;
-import application.GameState;
-import application.Utility;
+import util.IOUtils;
 
 public class Bird extends Enemy {
   private static final int STATE_FLYING = 1;
@@ -51,12 +50,12 @@ public class Bird extends Enemy {
       c = 'c';
 
     anims[STATE_EXPLODING] = new Animation(false);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode1.png"), 200);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode2.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode1.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode2.png"), 200);
 
     anims[STATE_FLYING] = new Animation(true);
-    anims[STATE_FLYING].addFrame(Utility.loadImage(base + "bird" + c + "1.png"), 400);
-    anims[STATE_FLYING].addFrame(Utility.loadImage(base + "bird" + c + "2.png"), 400);
+    anims[STATE_FLYING].addFrame(IOUtils.loadImage(base + "bird" + c + "1.png"), 400);
+    anims[STATE_FLYING].addFrame(IOUtils.loadImage(base + "bird" + c + "2.png"), 400);
 
     return anims;
   }

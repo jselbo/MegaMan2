@@ -3,12 +3,10 @@ package graphics.objects;
 import graphics.Animation;
 import graphics.Direction;
 import graphics.Sprite;
+import util.IOUtils;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-
-import application.Utility;
 
 public class Megaman extends Sprite {
   private final static int NUM_STATES = 6;
@@ -27,7 +25,7 @@ public class Megaman extends Sprite {
 
     reset();
 
-    healthImg = Utility.loadImage("res/images/megaman/health.png");
+    healthImg = IOUtils.loadImage("res/images/megaman/health.png");
   }
 
   public static Animation[] loadAnimations() {
@@ -36,26 +34,26 @@ public class Megaman extends Sprite {
     String base = "res/images/megaman/";
 
     anims[STATE_IDLE] = new Animation(true);
-    anims[STATE_IDLE].addFrame(Utility.loadImage(base + "idle1.png"), 1500);
-    anims[STATE_IDLE].addFrame(Utility.loadImage(base + "idle2.png"), 150);
+    anims[STATE_IDLE].addFrame(IOUtils.loadImage(base + "idle1.png"), 1500);
+    anims[STATE_IDLE].addFrame(IOUtils.loadImage(base + "idle2.png"), 150);
 
     anims[STATE_STEP] = new Animation(false);
-    anims[STATE_STEP].addFrame(Utility.loadImage(base + "run1.png"), 117);
+    anims[STATE_STEP].addFrame(IOUtils.loadImage(base + "run1.png"), 117);
 
     anims[STATE_RUN] = new Animation(true);
-    anims[STATE_RUN].addFrame(Utility.loadImage(base + "run2.png"), 117);
-    anims[STATE_RUN].addFrame(Utility.loadImage(base + "run3.png"), 117);
-    anims[STATE_RUN].addFrame(Utility.loadImage(base + "run4.png"), 117);
+    anims[STATE_RUN].addFrame(IOUtils.loadImage(base + "run2.png"), 117);
+    anims[STATE_RUN].addFrame(IOUtils.loadImage(base + "run3.png"), 117);
+    anims[STATE_RUN].addFrame(IOUtils.loadImage(base + "run4.png"), 117);
 
     anims[STATE_FALL] = new Animation(false);
-    anims[STATE_FALL].addFrame(Utility.loadImage(base + "fall.png"), 117);
+    anims[STATE_FALL].addFrame(IOUtils.loadImage(base + "fall.png"), 117);
 
     anims[STATE_SHOOT] = new Animation(false);
-    anims[STATE_SHOOT].addFrame(Utility.loadImage(base + "shoot.png"), 500);
+    anims[STATE_SHOOT].addFrame(IOUtils.loadImage(base + "shoot.png"), 500);
 
     anims[STATE_HIT] = new Animation(false);
-    anims[STATE_HIT].addFrame(Utility.loadImage(base + "hit1.png"), 250);
-    anims[STATE_HIT].addFrame(Utility.loadImage(base + "hit2.png"), 250);
+    anims[STATE_HIT].addFrame(IOUtils.loadImage(base + "hit1.png"), 250);
+    anims[STATE_HIT].addFrame(IOUtils.loadImage(base + "hit2.png"), 250);
 
     return anims;
   }

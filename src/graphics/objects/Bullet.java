@@ -3,7 +3,7 @@ package graphics.objects;
 import graphics.Animation;
 import graphics.Direction;
 import graphics.Sprite;
-import application.Utility;
+import util.IOUtils;
 
 public class Bullet extends Sprite {
   public Bullet(float x, float y, float vx, float vy, Direction direction) {
@@ -19,7 +19,7 @@ public class Bullet extends Sprite {
     Animation[] anims = new Animation[1];
 
     anims[0] = new Animation();
-    anims[0].addFrame(Utility.loadImage("res/images/megaman/bullet.png"), 10);
+    anims[0].addFrame(IOUtils.loadImage("res/images/megaman/bullet.png"), 10);
 
     return anims;
   }

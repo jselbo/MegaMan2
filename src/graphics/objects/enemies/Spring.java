@@ -1,10 +1,9 @@
 package graphics.objects.enemies;
 
+import application.GameDifficulty;
 import graphics.Animation;
 import graphics.Direction;
-import application.GameDifficulty;
-import application.GameState;
-import application.Utility;
+import util.IOUtils;
 
 public class Spring extends Enemy {
   public static final int STATE_IDLE = 1;
@@ -52,8 +51,8 @@ public class Spring extends Enemy {
 
     String base = "res/images/enemies/";
     anims[STATE_EXPLODING] = new Animation(false);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode1.png"), 200);
-    anims[STATE_EXPLODING].addFrame(Utility.loadImage(base + "explode2.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode1.png"), 200);
+    anims[STATE_EXPLODING].addFrame(IOUtils.loadImage(base + "explode2.png"), 200);
 
     char c;
     if (type == 0)
@@ -61,17 +60,17 @@ public class Spring extends Enemy {
     else
       c = 'b';
     anims[STATE_IDLE] = new Animation();
-    anims[STATE_IDLE].addFrame(Utility.loadImage(base + "spring" + c + "1.png"), 100);
+    anims[STATE_IDLE].addFrame(IOUtils.loadImage(base + "spring" + c + "1.png"), 100);
 
     anims[STATE_BOUNCING] = new Animation();
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "1.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "2.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "3.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "2.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "1.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "4.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "5.png"), 177);
-    anims[STATE_BOUNCING].addFrame(Utility.loadImage(base + "spring" + c + "4.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "1.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "2.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "3.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "2.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "1.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "4.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "5.png"), 177);
+    anims[STATE_BOUNCING].addFrame(IOUtils.loadImage(base + "spring" + c + "4.png"), 177);
 
     return anims;
   }

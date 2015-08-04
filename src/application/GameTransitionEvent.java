@@ -1,11 +1,10 @@
 package application;
 
 import com.google.common.collect.ImmutableMap;
+import panels.GamePanel;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import panels.GamePanel;
 
 /**
  * Event indicating a transition between game panels. Use this to pass data between GamePanels.

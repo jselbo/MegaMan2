@@ -1,10 +1,10 @@
 package graphics.objects;
 
+import util.IOUtils;
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
-
-import application.Utility;
 
 public class Remix {
   private Image img;
@@ -13,7 +13,7 @@ public class Remix {
   private long time;
 
   public Remix(int x, int y) {
-    img = Utility.loadImage("res/images/overworld/remix.png");
+    img = IOUtils.loadImage("res/images/overworld/remix.png");
     this.x = x;
     this.y = y;
   }

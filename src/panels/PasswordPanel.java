@@ -1,36 +1,28 @@
 package panels;
 
+import application.GameManager;
+import application.GameState;
+import application.GameTransitionEvent;
+import audio.Sound;
 import graphics.Direction;
 import graphics.TextAnimation;
 import graphics.TextSprite;
 import graphics.objects.PasswordGrid;
 import graphics.objects.Selector;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
+import input.InputListener;
+import util.IOUtils;
+import util.TextUtils;
 
 import javax.sound.midi.Sequence;
-
-import application.GameState;
-import application.GameTransitionEvent;
-import application.Utility;
-
-import audio.Sound;
-
-import input.InputListener;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class PasswordPanel extends GamePanel {
   // number of increments for a complete fade
   private static final int FADE_INCREMENTS = 3;
   // time (milliseconds) for each fade increment
   private static final int FADE_TIME = 67;
-  private static final float TRANS_SPEED = (float)Utility.SPRITE_SIZE / 50.0f;
+  private static final float TRANS_SPEED = (float)GameManager.SPRITE_SIZE / 50.0f;
   private long runningFadeTime;
   private boolean fading;
 
@@ -72,7 +64,7 @@ public class PasswordPanel extends GamePanel {
 
     firstRun = true;
 
-    selector = new Selector(1, 2 * Utility.SPRITE_SIZE);
+    selector = new Selector(1, 2 * GameManager.SPRITE_SIZE);
 
     String midiBase = "res/audio/midis/";
     pwMidi = gameState.getMidiPlayer().getSequence(midiBase + "password.mid");
@@ -82,20 +74,20 @@ public class PasswordPanel extends GamePanel {
 
     String imageBase = "res/images/overworld/";
 
-    tileBackground = Utility.loadImage(imageBase + "tile_background.png");
+    tileBackground = IOUtils.loadImage(imageBase + "tile_background.png");
 
-    orb = Utility.loadImage(imageBase + "orb.png");
+    orb = IOUtils.loadImage(imageBase + "orb.png");
 
-    selectorBox = Utility.loadImage(imageBase + "selector_box.png");
+    selectorBox = IOUtils.loadImage(imageBase + "selector_box.png");
     selectorPos = new Point();
-    passwordBox = Utility.loadImage(imageBase + "password_box.png");
+    passwordBox = IOUtils.loadImage(imageBase + "password_box.png");
     passwordPos = new Point();
-    orbBox = Utility.loadImage(imageBase + "orb_box.png");
+    orbBox = IOUtils.loadImage(imageBase + "orb_box.png");
     orbPos = new Point();
-    weaponBox = Utility.loadImage(imageBase + "weapon_box.png");
-    weaponPos = Utility.centerImage(weaponBox, gameState.getGameDimension());
-    secondaryBox = Utility.loadImage(imageBase + "secondary_box.png");
-    secondaryPos = Utility.centerImage(secondaryBox, gameState.getGameDimension());
+    weaponBox = IOUtils.loadImage(imageBase + "weapon_box.png");
+    weaponPos = TextUtils.centerImage(weaponBox, gameState.getGameDimension());
+    secondaryBox = IOUtils.loadImage(imageBase + "secondary_box.png");
+    secondaryPos = TextUtils.centerImage(secondaryBox, gameState.getGameDimension());
 
     pwGrid = new PasswordGrid(5, 5, 9); // 5x5 grid with a max of 9 orbs
 
@@ -118,13 +110,13 @@ public class PasswordPanel extends GamePanel {
     if (firstRun) {
       frameState = FrameState.PASSWORD;
 
-      selector.setPosition(11 * Utility.SPRITE_SIZE, 12 * Utility.SPRITE_SIZE);
+      selector.setPosition(11 * GameManager.SPRITE_SIZE, 12 * GameManager.SPRITE_SIZE);
       selector.reset();
-      selectorPos.setLocation(10 * Utility.SPRITE_SIZE, 10 * Utility.SPRITE_SIZE);
-      passwordPos.setLocation((4+32) * Utility.SPRITE_SIZE, 4 * Utility.SPRITE_SIZE);
-      orbPos.setLocation((24+32) * Utility.SPRITE_SIZE, 18 * Utility.SPRITE_SIZE);
-      pwGrid.setCorner(new Point(passwordPos.x + 4 * Utility.SPRITE_SIZE,
-          passwordPos.y + 4 * Utility.SPRITE_SIZE));
+      selectorPos.setLocation(10 * GameManager.SPRITE_SIZE, 10 * GameManager.SPRITE_SIZE);
+      passwordPos.setLocation((4+32) * GameManager.SPRITE_SIZE, 4 * GameManager.SPRITE_SIZE);
+      orbPos.setLocation((24+32) * GameManager.SPRITE_SIZE, 18 * GameManager.SPRITE_SIZE);
+      pwGrid.setCorner(new Point(passwordPos.x + 4 * GameManager.SPRITE_SIZE,
+          passwordPos.y + 4 * GameManager.SPRITE_SIZE));
       pwGrid.reset();
       orbCount.getAnimation().setText(Integer.toString(pwGrid.maxOrbs() - pwGrid.numOrbs()));
 
@@ -188,23 +180,23 @@ public class PasswordPanel extends GamePanel {
     switch (frameState) {
       case PASSWORD:
         g2.setColor(this.getBackground());
-        g2.fillRect(selectorPos.x, selectorPos.y, selectorBox.getWidth(null) - Utility.SPRITE_SIZE,
-            selectorBox.getHeight(null) - Utility.SPRITE_SIZE);
+        g2.fillRect(selectorPos.x, selectorPos.y, selectorBox.getWidth(null) - GameManager.SPRITE_SIZE,
+            selectorBox.getHeight(null) - GameManager.SPRITE_SIZE);
         g2.drawImage(selectorBox, selectorPos.x, selectorPos.y, null);
 
         g2.setColor(Color.white);
-        g2.drawString(startOptions[0], selectorPos.x + 3 * Utility.SPRITE_SIZE,
-            selectorPos.y + 3 * Utility.SPRITE_SIZE);
-        g2.drawString(startOptions[1], selectorPos.x + 3 * Utility.SPRITE_SIZE,
-            selectorPos.y + 5 * Utility.SPRITE_SIZE);
+        g2.drawString(startOptions[0], selectorPos.x + 3 * GameManager.SPRITE_SIZE,
+            selectorPos.y + 3 * GameManager.SPRITE_SIZE);
+        g2.drawString(startOptions[1], selectorPos.x + 3 * GameManager.SPRITE_SIZE,
+            selectorPos.y + 5 * GameManager.SPRITE_SIZE);
 
         selector.paint(g2);
 
         // Opacity filter
         g2.setColor(new Color(0, 0, 0, 255 - opacity));
-        g2.fillRect(selectorPos.x + Utility.SPRITE_SIZE, selectorPos.y + Utility.SPRITE_SIZE,
-            selectorBox.getWidth(null) - 3*Utility.SPRITE_SIZE,
-            selectorBox.getHeight(null) - 3*Utility.SPRITE_SIZE);
+        g2.fillRect(selectorPos.x + GameManager.SPRITE_SIZE, selectorPos.y + GameManager.SPRITE_SIZE,
+            selectorBox.getWidth(null) - 3*GameManager.SPRITE_SIZE,
+            selectorBox.getHeight(null) - 3*GameManager.SPRITE_SIZE);
         break;
       case LEVEL_END:
         break;
@@ -215,27 +207,27 @@ public class PasswordPanel extends GamePanel {
     switch (frameState) {
       case PASSWORD:
         g2.setColor(this.getBackground());
-        g2.fillRect(passwordPos.x, passwordPos.y, passwordBox.getWidth(null) - Utility.SPRITE_SIZE,
-            passwordBox.getHeight(null) - Utility.SPRITE_SIZE);
+        g2.fillRect(passwordPos.x, passwordPos.y, passwordBox.getWidth(null) - GameManager.SPRITE_SIZE,
+            passwordBox.getHeight(null) - GameManager.SPRITE_SIZE);
         g2.drawImage(passwordBox, passwordPos.x, passwordPos.y, null);
         pwGrid.paint(g2);
 
         // Orb box
         g2.setColor(this.getBackground());
-        g2.fillRect(orbPos.x, orbPos.y, orbBox.getWidth(null) - Utility.SPRITE_SIZE,
-            orbBox.getHeight(null) - Utility.SPRITE_SIZE);
+        g2.fillRect(orbPos.x, orbPos.y, orbBox.getWidth(null) - GameManager.SPRITE_SIZE,
+            orbBox.getHeight(null) - GameManager.SPRITE_SIZE);
         g2.drawImage(orbBox, orbPos.x, orbPos.y, null);
-        g2.drawImage(orb, orbPos.x + (int)(1.5*Utility.SPRITE_SIZE), orbPos.y + 2*Utility.SPRITE_SIZE, null);
+        g2.drawImage(orb, orbPos.x + (int)(1.5*GameManager.SPRITE_SIZE), orbPos.y + 2*GameManager.SPRITE_SIZE, null);
         orbCount.paint(g2);
 
         // Opacity filter
         g2.setColor(new Color(0, 0, 0, 255 - opacity));
-        g2.fillRect(passwordPos.x + Utility.SPRITE_SIZE, passwordPos.y + Utility.SPRITE_SIZE,
-            passwordBox.getWidth(null) - 3*Utility.SPRITE_SIZE,
-            passwordBox.getHeight(null) - 3*Utility.SPRITE_SIZE);
-        g2.fillRect(orbPos.x + Utility.SPRITE_SIZE, orbPos.y + Utility.SPRITE_SIZE,
-            orbBox.getWidth(null) - 3*Utility.SPRITE_SIZE,
-            orbBox.getHeight(null) - 3*Utility.SPRITE_SIZE);
+        g2.fillRect(passwordPos.x + GameManager.SPRITE_SIZE, passwordPos.y + GameManager.SPRITE_SIZE,
+            passwordBox.getWidth(null) - 3*GameManager.SPRITE_SIZE,
+            passwordBox.getHeight(null) - 3*GameManager.SPRITE_SIZE);
+        g2.fillRect(orbPos.x + GameManager.SPRITE_SIZE, orbPos.y + GameManager.SPRITE_SIZE,
+            orbBox.getWidth(null) - 3*GameManager.SPRITE_SIZE,
+            orbBox.getHeight(null) - 3*GameManager.SPRITE_SIZE);
         break;
       case LEVEL_END:
         break;
@@ -272,14 +264,14 @@ public class PasswordPanel extends GamePanel {
           passwordPos.setLocation(passwordPos.x + dx, passwordPos.y);
           orbPos.setLocation(orbPos.x + dx, orbPos.y);
 
-          if (passwordPos.x <= 4 * Utility.SPRITE_SIZE) { // done transitioning
-            selectorPos.setLocation((10-32) * Utility.SPRITE_SIZE, selectorPos.y);
-            passwordPos.setLocation(4 * Utility.SPRITE_SIZE, passwordPos.y);
-            orbPos.setLocation(24 * Utility.SPRITE_SIZE, orbPos.y);
+          if (passwordPos.x <= 4 * GameManager.SPRITE_SIZE) { // done transitioning
+            selectorPos.setLocation((10-32) * GameManager.SPRITE_SIZE, selectorPos.y);
+            passwordPos.setLocation(4 * GameManager.SPRITE_SIZE, passwordPos.y);
+            orbPos.setLocation(24 * GameManager.SPRITE_SIZE, orbPos.y);
 
-            pwGrid.setCorner(new Point(passwordPos.x + 4 * Utility.SPRITE_SIZE,
-                passwordPos.y + 4 * Utility.SPRITE_SIZE));
-            orbCount.setLocation(orbPos.x + (2*Utility.SPRITE_SIZE), orbPos.y + 5*Utility.SPRITE_SIZE);
+            pwGrid.setCorner(new Point(passwordPos.x + 4 * GameManager.SPRITE_SIZE,
+                passwordPos.y + 4 * GameManager.SPRITE_SIZE));
+            orbCount.setLocation(orbPos.x + (2*GameManager.SPRITE_SIZE), orbPos.y + 5*GameManager.SPRITE_SIZE);
 
             selector.setEnabled(true);
             frame = true;
