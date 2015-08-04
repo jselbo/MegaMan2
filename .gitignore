@@ -5,6 +5,10 @@
 .gradle
 build/
 
+# IntelliJ
+*.iml
+.idea/
+
 # Windows detritus
 Thumbs.db
 

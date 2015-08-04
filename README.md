@@ -11,6 +11,10 @@ Build using [Gradle](https://gradle.org/).
 gradle run
 ```
 
+IDEs are good too.
+-----
+This project is compatible with IntelliJ IDEA.
+
 Development
 -----
 We are using [Tiled Map Editor](http://www.mapeditor.org) to create the tile maps.
