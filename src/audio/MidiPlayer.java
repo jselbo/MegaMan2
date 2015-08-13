@@ -1,6 +1,13 @@
 package audio;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;

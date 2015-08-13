@@ -2,31 +2,34 @@ package panels;
 
 import application.GameState;
 import application.GameTransitionEvent;
-import com.google.gson.Gson;
+import application.GameTransitionEventKey;
 import graphics.objects.Megaman;
-import serialization.SerializedLevel;
-import util.IOUtils;
+import graphics.objects.bosses.BossType;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class LevelPlayPanel extends GamePanel {
+  private BossType bossType;
   private Megaman hero;
 
   public LevelPlayPanel(GameState gameState) {
     super(gameState);
 
     setBackground(Color.BLACK);
+  }
+
+  @Override
+  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
+    bossType = (BossType) transitionEvent.getValue(GameTransitionEventKey.LEVEL_SELECT_BOSS_TYPE);
+
     hero = new Megaman();
 
     String levelStr;
     try {
-      levelStr = IOUtils.readFileContents("res/levels/woodman/overworld.json", StandardCharsets.UTF_8);
-      Gson gson = new Gson();
-      SerializedLevel level = gson.fromJson(levelStr, SerializedLevel.class);
+
       System.out.println("Level: " + level);
     } catch (IOException ie) {
       ie.printStackTrace();
@@ -34,7 +37,7 @@ public class LevelPlayPanel extends GamePanel {
   }
 
   @Override
-  public void prepareForUpdates(GameTransitionEvent transitionEvent) {
+  public void updateGame(long elapsedTime) {
   }
 
   @Override
@@ -43,9 +46,5 @@ public class LevelPlayPanel extends GamePanel {
     Graphics2D g2 = (Graphics2D) g;
 
     hero.paint(g2);
-  }
-
-  @Override
-  public void updateGame(long elapsedTime) {
   }
 }
