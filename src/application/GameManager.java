@@ -42,7 +42,7 @@ public class GameManager implements Runnable {
   // uncompressed, 44100Hz, 16-bit, stereo, signed, little-endian
   private static final AudioFormat PLAYBACK_FORMAT = new AudioFormat(44100, 16, 2, true, false);
 
-  private static final GamePanel.Type STARTING_PANEL_TYPE = GamePanel.Type.INTRO_PANEL;
+  private static final GamePanel.Type STARTING_PANEL_TYPE = GamePanel.Type.LEVEL_SELECT_PANEL;
 
   // GUI elements
   private JFrame frame;

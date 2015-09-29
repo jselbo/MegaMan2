@@ -5,6 +5,8 @@ import application.GameTransitionEvent;
 import application.GameTransitionEventKey;
 import graphics.objects.Megaman;
 import graphics.objects.bosses.BossType;
+import serialization.SerializedTilemap;
+import util.IOUtils;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,20 +21,25 @@ public class LevelPlayPanel extends GamePanel {
     super(gameState);
 
     setBackground(Color.BLACK);
+
+    hero = new Megaman();
   }
 
   @Override
   public void prepareForUpdates(GameTransitionEvent transitionEvent) {
     bossType = (BossType) transitionEvent.getValue(GameTransitionEventKey.LEVEL_SELECT_BOSS_TYPE);
-
-    hero = new Megaman();
-
-    String levelStr;
     
+    try {
+        SerializedTilemap serialized = IOUtils.loadLevel(bossType);
+        System.out.println("its: " + serialized);
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    }
   }
 
   @Override
   public void updateGame(long elapsedTime) {
+    hero.update(elapsedTime);
   }
 
   @Override

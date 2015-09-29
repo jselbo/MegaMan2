@@ -1,7 +1,9 @@
 package util;
 
-import com.google.gson.Gson;
+import graphics.objects.bosses.BossType;
 import serialization.SerializedTilemap;
+
+import com.google.gson.Gson;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -29,8 +31,10 @@ public class IOUtils {
     return new String(encoded, encoding);
   }
 
-  public static SerializedTilemap loadLevel(String levelName) throws IOException {
-    String levelStr = IOUtils.readFileContents("res/levels/woodman/overworld.json", StandardCharsets.UTF_8);
+  public static SerializedTilemap loadLevel(BossType level) throws IOException {
+    String levelName = level.getBossName().toLowerCase();
+    String levelPath = "res/levels/" + levelName + "/overworld.json";
+    String levelStr = IOUtils.readFileContents(levelPath, StandardCharsets.UTF_8);
     return new Gson().fromJson(levelStr, SerializedTilemap.class);
   }
 
