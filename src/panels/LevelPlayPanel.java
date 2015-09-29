@@ -28,12 +28,7 @@ public class LevelPlayPanel extends GamePanel {
     hero = new Megaman();
 
     String levelStr;
-    try {
-
-      System.out.println("Level: " + level);
-    } catch (IOException ie) {
-      ie.printStackTrace();
-    }
+    
   }
 
   @Override
